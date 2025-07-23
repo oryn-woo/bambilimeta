@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <style>
+        .bungee-regular {
+        font-family: "Bungee", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        }
+
+    </style>
+
+    <title>home</title>
+</head>
+<body>
+<div class="rol-col-12 rol-col-md-6 text-center">
+    <h1 class="bungee-regular text-dark">Welcome To Bambili Rentals</h1>
+</div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 mb-3"> <!-- Full width on extra-small screens, half on small and 1/3 on medium size.-->
+
+            <div class="card text-white overflow-hidden">
+                <img src="/images/img1.jpeg" class="card-img" alt="A beautiful modern house">
+
+                <div class="card-img-overlay d-flex flex-column bg-dark bg-opacity-25 p-3">
+                  <!-- The flex-column has made card a parent with a vertical flexbox layout for its children.
+                  The flex-colum stacks children on the overlay vertically, compared to horizontally for flex-row.
+                  Now the flex-column only affects children (The three divs for title, location and badges, and stacks them vertically.)
+                  This divs are just block elements which can enforce their own styling to their children with freewill.-->
+
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title text-truncate me-3">
+                            <i class="bi bi-house-check-fill me-2" aria-hidden="true"></i>Modern Villa
+                        </h5>
+                        <span class="badge bg-primary rounded-pill">9</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center"> <!-- This line says arrange content horizontally(d-flex) then pussh them to the edges(justify content between)-->
+                        <h6 class="text-truncate me-3">
+                            <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>Buea, Southwest
+                        </h6>
+                        <span role="button" aria-label="Favorite this house" class="fs-4">
+                            <i class="bi bi-balloon-heart"></i>
+                        </span>
+                    </div>
+
+                    <div class="mt-auto d-flex flex-nowrap overflow-auto pb-2"> <!-- The mt-auto a margin utility pushes it to the bottom of the container
+                     This div is a block element stacked automatically by the flex-column, hence its children, badges will
+                     Flow horizontally untill the run of spacce and wrap to the next line, since span is and inline element.
+                     The mt-auto tells it to take the entire available upper space for itself, hence it geos to the bottom.-->
+                        <span class="badge bg-light text-dark rounded-pill">3 Bedrooms</span>
+                        <span class="badge bg-light text-dark rounded-pill">2 Bathrooms</span>
+                        <span class="badge bg-light text-dark rounded-pill">Pool</span>
+                    </div>
+
+                </div>
+                <a href="#" class="stretched-link" aria-label="View details for Modern Villa"></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
