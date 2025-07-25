@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <title>Title</title>
+
+
+<style>
+  .offcanvas-body {
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+
+  .custom-dropdown {
+    margin-bottom: 1.5rem;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    text-align: left;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  }
+
+  .dropdown-item {
+    padding: 0.75rem 1rem;
+  }
+</style>
+
+
+
+</head>
+<body>
+<!--
+- Navbars require a wrapping .navbar with .navbar-expand{-sm|-md|-lg|-xl|-xxl} for responsive collapsing and color scheme classes
+- Navs and their content are fluid by default, meaning
+   the take up full width of their parent container.
+- To limit their horizontal width, we use the container element.
+- These are .container (a fixed width container that adjust width base on screen size 'responsive')
+   an .container-fluid (A full-width container that spans entire width of the parent.)
+- To limit width of navbar we wrap it inside a container which adjust its width based on screen sizes.
+   or use .container-{sm | md | xl}
+NAV-BARS SUPPORT
+- A .navbar-brand for company, product or project name
+- A navbar-nav for full height and lightweight navigation
+- A .navbar-toggler for use with bootstrap collapse plugin
+- A .collapse.navbar-collapse for grouping and hiding navbar contents by a parent breakpoint.
+-
+-->
+<nav class="navbar border-bottom border-body navbar-expand-lg fixed-top" data-bs-theme="light">
+    <!-- .navbar-expand-lg means the bar will collapse and hide its content on screen smaller than lg, and expand on larger screens -->
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand h1">
+            <img src="images/img2.jpeg" alt="Bootstrap" width="30" height="24" class="d-inline-block align-text-top">
+            <!-- The d-inline-block and align-text-top classes are used to align the image with the text. The d-inline-block ensure the occupy only the space the need.-->
+            Bambili Rentals
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <!--aria-label is for aiding assistive technologies, aria-expanded indicates the current state, wither its collapsed 'not visible' (false) or expanded 'visible' (true) data-bs-toggle (collapse) triggers the collapse behavior of JS.-->
+            <span class="navbar-toggler-icon"><!--The three horizontal icons--></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- The collapsable part of the navbar, the two classes provide styling and layout adjustment for them.-->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- navbar-nav defines the navigation links and provides basic styling and layout.-->
+                <li class="nav-item">
+                    <!-- The .nav-item defines individual links and also provide stying and spacing -->
+                    <a href="#" class="nav-link active" aria-current="page">
+                        <!-- .aria-current help assistive technologies know their current page and .active helps distinguish the link -->
+                        Home
+                    </a>
+                </li>
+            </ul>
+            <button class="btn btn-primary  me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                <!-- .btn-primary provides a primary button style, data-bs-toggle and data-bs-target are used to trigger the offcanvas behavior -->
+                More
+            </button>
+
+            <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+
+
+            <!-- The form appears at the other extreme edge because direct or immediate children of .navbar use flex-layout and defaults to justify-content: space between  -->
+            <!--
+            - Navbars can contain bit of texts with .navbar-text class
+            -->
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+
+
+
+
+
+<!-- LIVE TOAST -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+         <div class="mt-2 pt-2 border-top">
+      <button type="button" class="btn btn-primary btn-sm">Take action</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- OFFCANVAS -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRight">
+  <div class="offcanvas-header">
+      <div class="container my-3">
+          <form class="d-flex" role="search">
+              <span class="input-group-text">
+                  <span data-bs-placement="right" data-bs-toggle="tooltip" title="Search a home type, e.g single-room, studio or apartment">
+                      <i class="bi bi-question-circle-fill"></i>
+                  </span>
+              </span>
+              <input class="form-control me-2" type="search" placeholder="Find a home" aria-label="Search"/>
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+      </div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+  <div class="dropdown custom-dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+      First Option
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-dark rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+
+    </ul>
+  </div>
+
+  <div class="dropdown custom-dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+      Second Option
+    </button>
+    <ul class="dropdown-menu" >
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-secondary rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+
+    </ul>
+  </div>
+
+  <div class="dropdown custom-dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+      Third Option
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-secondary rounded-pill p-1"></span>Action</a></li>
+      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
+    </ul>
+  </div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
+<script>
+    const toastTrigger = document.getElementById('liveToastBtn')
+const toastLiveExample = document.getElementById('liveToast')
+
+if (toastTrigger) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+  toastTrigger.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
+}
+</script>
+</body>
+</html>
