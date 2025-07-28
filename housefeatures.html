@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Features</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+    <style>
+        @keyframes rainbow-glow {
+  0%,100% { box-shadow: 0 0 8px rgba(255, 0,   0,  0.6); }
+  16%      { box-shadow: 0 0 8px rgba(255,127,  0,  0.6); }
+  33%      { box-shadow: 0 0 8px rgba(255,255,  0,  0.6); }
+  50%      { box-shadow: 0 0 8px rgba(  0,255,  0,  0.6); }
+  66%      { box-shadow: 0 0 8px rgba(  0,  0,255,  0.6); }
+  83%      { box-shadow: 0 0 8px rgba(139,  0,255,  0.6); }
+}
+
+.rainbow-btn {
+  animation: rainbow-glow 3s infinite ease-in-out;
+  transition: transform .2s;
+}
+.rainbow-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Popover custom styling */
+.popover-rainbow {
+  --bs-popover-bg: #fff;
+  --bs-popover-border-color: #8e44ad;
+  --bs-popover-header-bg: #9b59b6;
+  --bs-popover-header-color: #fff;
+  --bs-popover-body-color: #333;
+  border-width: 2px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <div class="row row-cols-2 row-cols-md-3 g-3 justify-content-center">
+    <!-- Repeat this button for each “house” -->
+    <div class="col text-center">
+      <button
+        type="button"
+        class="btn btn-primary rainbow-btn"
+        data-bs-toggle="popover"
+        data-bs-placement="top"
+        data-bs-custom-class="popover-rainbow"
+        title="Cozy Cottage"
+        data-bs-content="3 bed · 2 bath · 1,200 sq ft"
+      >
+        Cottage
+      </button>
+    </div>
+    <!-- … more buttons … -->
+  </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const = popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    popoverTriggerList.forEach(el => {
+    new bootstrap.Popover(el, {
+    html: true
+    });
+    });
+</script>
+</body>
+</html>

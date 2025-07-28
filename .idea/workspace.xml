@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Design the main card for the housing site homepage.">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/navbar.html" afterDir="false" />
+    <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Design a prototype navbar for the housing site homepage.">
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detailed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/housefeatures.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img1.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/static/housing/images/img1.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +23,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Python Script" />
         <option value="HTML File" />
       </list>
     </option>
@@ -35,16 +41,19 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\static\housing" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates\housing" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates" />
       <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\images" />
     </key>
   </component>
@@ -72,11 +81,20 @@
       <option name="project" value="LOCAL" />
       <updated>1753302282043</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Design a prototype navbar for the housing site homepage.">
+      <option name="closed" value="true" />
+      <created>1753419029029</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1753419029029</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Design the main card for the housing site homepage." />
-    <option name="LAST_COMMIT_MESSAGE" value="Design the main card for the housing site homepage." />
+    <MESSAGE value="Design a prototype navbar for the housing site homepage." />
+    <option name="LAST_COMMIT_MESSAGE" value="Design a prototype navbar for the housing site homepage." />
   </component>
 </project>
