@@ -1,0 +1,89 @@
+{% extends 'housing/base.html' %}
+{% block style %}
+    /* Ensure all thumbnails are the same height and cropped */
+    .thumb-img {
+      width: 60%;
+      height: 120px;
+      object-fit: cover;
+    }
+    /* Fix the height of the left pane and enable vertical scrolling */
+    .overview-pane {
+    max-height: 30rem;
+      overflow-y: auto;
+    }
+.carousel-card {
+height: 34rem;
+}
+.carousel {
+height: 100%
+}
+
+carousel-item img {
+height: 100%;
+object-fit: cover;
+}
+
+{% endblock style %}
+
+{% block body %}
+
+
+<div class="container py-4 justify-content-center align-items-center border border-dark">
+  <div class="row align-items-md-start">
+    <!-- LEFT COLUMN: Overview thumbnails stacked vertically -->
+    <div class="col-md-6 d-none d-md-block">
+      <div class="overview-pane position-relative border rounded p-2">
+
+        <div class="row row-cols-1 g-2">
+          <!-- Repeat for each thumbnail -->
+            {% for image in house_detail.images.all %}
+              <div class="col">
+                    <img src="{{ image.image.url }}" class="thumb-img rounded" alt="{{ house_detail.title }}">
+
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Bootstrap Carousel -->
+    <div class="col-md-6 justify-content-center align-items-center">
+      <div class="card carousel-card">
+        <div class="card-body p-0"> <!-- No padding so the carousel fills the card -->
+          <div id="houseCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in house_detail.images.all %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <img src="{{ image.image.url }}" class="d-block w-100" alt="Slide 1">
+                  </div>
+                {% endfor %}
+
+              <!-- Add more items as needed -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#houseCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#houseCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+        </div>
+          <div class="card-footer">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
+
+{% block script %}
+    document.querySelectorAll('.thumb-img').forEach((img, idx) => {
+  img.addEventListener('click', () => {
+  const carouselEl = document.getElementById('houseCarousel');
+  const carousel = bootstrap.Carousel.getInstance(carouselEl) || new bootstrap.Carousel(carouselEl);
+  carousel.to(idx);
+
+  });
+  });
+{% endblock script %}

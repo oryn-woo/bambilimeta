@@ -1,0 +1,167 @@
+{% extends 'housing/base.html' %}
+{% load static %}
+{% block style %}
+/* Make the horizontal thumbnails scrollable */
+    .thumb-row {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: .5rem 0;
+    }
+    .thumb-row img {
+      height: 4rem;
+      width: auto;
+      object-fit: cover;
+      margin-right: .5rem;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .thumb-row img:hover {
+      transform: scale(1.1);
+    }
+    /* Highlight active thumbnail */
+    .thumb-row img.active {
+      border: 2px solid #0d6efd;
+      border-radius: .25rem;
+    }
+{% endblock style %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+
+            <div class="mb-4">
+                <h1>{{ house_detail.title }}</h1>
+                <p class="text-muted"><i class="bi bi-geo-alt-fill"></i> {{ house_detail.location }}</p>
+            </div>
+
+            <div id="houseImageCarousel" class="carousel slide shadow-lg rounded mb-4" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for image in house_detail.images.all %}
+                    <button type="button" data-bs-target="#houseImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner rounded">
+                    {% for image in house_detail.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ house_detail.title }} image {{ forloop.counter }}" style="height: 500px; object-fit: cover;">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#houseImageCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#houseImageCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <div class="thumb-row mt-3">
+                        {% for image in house_detail.images.all %}
+                          <img src="{{ image.image.url }}" class="active thumb-img" data-slide="{{ forloop.counter0 }}" alt="Thumb">
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% if house_detail.video %}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title">Video Tour 🎥</h4>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="{{ house_detail.video.url }}" title="House Video Tour" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 2rem;">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="fw-bold mb-0">${{ house_detail.price|floatformat:2 }}</h2>
+                        <hr>
+
+                        <div class="d-flex justify-content-between text-center mb-3">
+                            <div>
+                                <p class="mb-0 fw-bold">house.bedrooms </p>
+                                <small class="text-muted">Beds</small>
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold">house.bathrooms </p>
+                                <small class="text-muted">Baths</small>
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold">house.area </p>
+                                <small class="text-muted">sqft</small>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="#contact" class="btn btn-primary btn-lg">Request Information</a>
+                            <a href="tel:" class="btn btn-outline-secondary">Call Agent</a>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <img src="{{ house_detail.images.first.image.url }}" class="rounded-circle mb-2" width="80" height="80" alt="Agent Photo">
+                            <p class="mb-0 fw-bold"> house.agent.name </p>
+                            <small class="text-muted">Listing Agent</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Should have pagination -->
+<div class="container py-5">
+  <h2 class="display-3">Reviews</h2>
+  <div class="row row-cols-1 row-cols-md-2">
+    {% for review in reviews %}
+        <div class="cols my-2">
+          <div class="list-group">
+        <a href="" class="list-group-item list-group-item-action active">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1"></h5>
+            <small> 
+              {{ review.reviewed_on }}
+            </small>
+          </div>
+          <p class="mb-1">{{ review.comment }}</p>
+          <small>{{ review.rating }}</small>
+        </a>
+      </div>
+    </div>
+    {% empty %}
+      <p>No Reviews</p>
+    {% endfor %}
+
+    </div>
+
+  </div>
+
+
+
+
+
+{% endblock body %}
+
+
+{% block script %}
+    document.querySelectorAll('.thumb-img').forEach((img, idx) => {
+  img.addEventListener('click', () => {
+  const carouselEl = document.getElementById('houseImageCarousel');
+  const carousel = bootstrap.Carousel.getInstance(carouselEl) || new bootstrap.Carousel(carouselEl);
+  carousel.to(idx);
+
+  });
+  });
+{% endblock script %}

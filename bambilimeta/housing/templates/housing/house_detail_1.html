@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>House Showcase</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    /* Ensure video/card is same height as carousel on md+ */
+    .media-card {
+      max-height: 24rem;
+      overflow: hidden;
+    }
+    /* Make the horizontal thumbnails scrollable */
+    .thumb-row {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: .5rem 0;
+    }
+    .thumb-row img {
+      height: 4rem;
+      width: auto;
+      object-fit: cover;
+      margin-right: .5rem;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .thumb-row img:hover {
+      transform: scale(1.1);
+    }
+    /* Highlight active thumbnail */
+    .thumb-row img.active {
+      border: 2px solid #0d6efd;
+      border-radius: .25rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-4">
+
+  <div class="row gy-4">
+    <!-- LEFT: Video card on md+, button→modal on sm -->
+    <div class="col-md-6">
+      <div class="media-card card d-none d-md-block">
+        <video class="w-100 h-100" controls>
+          <source src="{{ house_detail.video.url }}" type="video/mp4">
+          Your browser doesn’t support HTML5 video.
+        </video>
+      </div>
+      <button
+        class="btn btn-primary w-100 d-block d-md-none"
+        data-bs-toggle="modal"
+        data-bs-target="#videoModal"
+      >
+        ▶️ Watch House Tour
+      </button>
+    </div>
+
+    <!-- RIGHT: Carousel -->
+    <div class="col-md-6">
+      <div id="houseCarousel" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-inner">
+          {% for image in house_detail.images.all %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+              <img src="{{ image.image.url }}" class="d-block w-100 img-fluid" alt="{{ house.title }}">
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#houseCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#houseCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BELOW: Horizontal thumbnail strip -->
+  <div class="thumb-row mt-3">
+    {% for image in house_detail.images.all %}
+      <img src="{{ image.image.url }}" class="active" data-slide="{{ forloop.counter0 }}" alt="Thumb">
+    {% endfor %}
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal fade" id="videoModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">House Tour</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0">
+        <video class="w-100" controls>
+          <source src="{{ house_detail.video.url }}" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+
+  // Thumbnail click → carousel slide
+  document.querySelectorAll('.thumb-row img').forEach(img => {
+    img.addEventListener('click', () => {
+      // Remove active from all, add to this
+      document.querySelectorAll('.thumb-row img').forEach(i => i.classList.remove('active'));
+      img.classList.add('active');
+
+      // Slide carousel
+      carousel.to(parseInt(img.dataset.slide, 10));
+    });
+  });
+
+    // When modal opens, autoplay the video; pause on close
+  const modalEl = document.getElementById('videoModal');
+  modalEl.addEventListener('shown.bs.modal', () => {
+    modalEl.querySelector('video').play();
+  });
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    modalEl.querySelector('video').pause();
+  });
+</script>
+
+</body>
+</html>

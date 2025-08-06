@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import sys
 from pathlib import Path
 import os
+import logging
+import logging.config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,33 +31,36 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
+if not TESTING:
+    INSTALLED_APPS = [
+        "housing",
+        "debug_toolbar",
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+    ]
 
-INSTALLED_APPS = [
-    "housing",
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 
 ROOT_URLCONF = 'bambilimeta.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,11 +122,73 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # The base dir where our files will be saved. BASE_DIR is done by django.
+assets_dir = os.path.join(BASE_DIR, "assets")
+os.makedirs(assets_dir, exist_ok=True)
+
+STATICFILES_DIRS = [
+    assets_dir
+]
+
 MEDIA_URL = "/media/"  # Specifies how we access this media files. e.g., for profile, it will be media/profile/image.jpg
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # The base dir where our files will be saved. BASE_DIR is done by django.
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#
+#     "formatters": {
+#         "verbose": {
+#             "format": "{levelname} {asctime} {module} {message}",
+#             "style": '{',
+#         },
+#         "simple": {
+#             "format": "{levelname} {message}",
+#             "style": "{",
+#         },
+#     },
+#     "handlers": {
+#         "file": {
+#             "level": "DEBUG",
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(BASE_DIR, "logs", "housing.log", ),
+#             "formatter": "verbose",
+#         },
+#         "console": {
+#             "level": "ERROR",
+#             "class": "logging.StreamHandler",
+#             "formatter": "simple",
+#         },
+#     },
+#
+#     "loggers": {
+#         "django": {
+#             "handlers": ["file", "console"],
+#             "level": "WARNING",
+#             "propagate": True,
+#
+#         },
+#         "housing.views": {
+#             "handlers": ["file", "console"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         }, "housing.models": {
+#             "handlers": ["file", "console"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+#
+#
+#     },
+#
+# }
+
+# file handler logs warning & errors to logs/django.logs

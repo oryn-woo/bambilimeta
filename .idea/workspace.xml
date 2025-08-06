@@ -5,15 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Design a prototype navbar for the housing site homepage.">
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/detailed.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/housefeatures.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/review_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/default.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/OIP_2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_2_4FrjPb5.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_5.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_6_VYsuOky.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_6_nEIhHzs.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/housing.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/points.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/img1.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/static/housing/images/img1.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detailed.html" beforeDir="false" afterPath="$PROJECT_DIR$/detailed.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,24 +50,28 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="30Br8FgQr1JvZqrt3I3UsPUTipj" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\static\housing" />
       <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates\housing" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\media" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\static\housing" />
       <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates" />
       <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\images" />
     </key>
@@ -93,6 +112,7 @@
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Design the main card for the housing site homepage." />
     <MESSAGE value="Design a prototype navbar for the housing site homepage." />
     <option name="LAST_COMMIT_MESSAGE" value="Design a prototype navbar for the housing site homepage." />
