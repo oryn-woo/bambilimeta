@@ -34,8 +34,12 @@ ALLOWED_HOSTS = []
 TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
 if not TESTING:
     INSTALLED_APPS = [
-        "housing",
+        "housing.apps.HousingConfig",
+        "marketplace.apps.MarketplaceConfig",
+        "users.apps.GeneralAuthConfig",
         "debug_toolbar",
+        "phonenumber_field",
+        "widget_tweaks",
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -192,3 +196,6 @@ INTERNAL_IPS = [
 # }
 
 # file handler logs warning & errors to logs/django.logs
+
+LOGIN_URL = "auth:login"
+LOGIN_REDIRECT_URL = 'auth:profile'

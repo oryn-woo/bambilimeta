@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusCart - Deals for Students</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'marketplace/style2.css'%}">
+
+</head>
+<body>
+
+    <header class="hero-section container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-lg-8">
+                <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner h-100">
+                        <div class="carousel-item active">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" class="d-block w-100" alt="Students studying together">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Back to School Essentials</h5>
+                                <p>Get everything you need for the new semester at unbeatable prices.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" class="d-block w-100" alt="Student tech gadgets">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Tech Deals for the Digital Age</h5>
+                                <p>Laptops, tablets, and accessories to power your studies.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1588702547919-26089e690ecc?q=80&w=2070&auto=format&fit=crop" class="d-block w-100" alt="Online learning setup">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Create Your Perfect Study Space</h5>
+                                <p>Ergonomic chairs, desks, and lighting to boost focus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 d-none d-lg-flex">
+                <div class="meta-welcome-card">
+                    <p class="meta-text"><span class="meta-prompt">CampusCart:~/$</span> ./welcome.sh</p>
+                    <p class="meta-text">Initializing student portal...</p>
+                    <p class="meta-text">Connecting to server: <span class="text-success">OK</span></p>
+                    <p class="meta-text">Fetching exclusive deals...</p>
+                    <p class="meta-text text-cyan">Access Granted. Welcome, Student!</p>
+                    <p class="meta-text">Your one-stop shop for academic success and campus life is now ready.<span class="cursor">_</span></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav id="main-navbar" class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-cart3"></i> CampusCart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Electronics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Books</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Fashion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Dorm Life</a></li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-5">
+        <div class="container-fluid px-lg-5">
+            <div class="glowing-wrapper rounded-5 p-3 p-md-4">
+                <h2 class="text-center mb-4 display-6 fw-bold">Featured Products</h2>
+
+                <div class="row g-4">
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card product-card h-100 shadow-sm">
+                            <div class="card-body p-2">
+                                <div class="row g-2">
+                                    <div class="col-3">
+                                        <div class="thumbnail-column">
+                                            <img src="https://placehold.co/400x400/000000/FFFFFF/png?text=Front" class="thumbnail-img active" data-product-carousel-id="#productCarousel1" data-bs-slide-to="0" alt="Product Thumbnail 1">
+                                            <img src="https://placehold.co/400x400/999999/FFFFFF/png?text=Side" class="thumbnail-img" data-product-carousel-id="#productCarousel1" data-bs-slide-to="1" alt="Product Thumbnail 2">
+                                            <img src="https://placehold.co/400x400/cccccc/000000/png?text=Back" class="thumbnail-img" data-product-carousel-id="#productCarousel1" data-bs-slide-to="2" alt="Product Thumbnail 3">
+                                            <img src="https://placehold.co/400x400/dddddd/000000/png?text=Angle" class="thumbnail-img" data-product-carousel-id="#productCarousel1" data-bs-slide-to="3" alt="Product Thumbnail 4">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <div id="productCarousel1" class="carousel slide product-image-carousel">
+                                            <div class="carousel-inner rounded-3">
+                                                <div class="carousel-item active">
+                                                    <img src="https://placehold.co/400x400/000000/FFFFFF/png?text=Front" class="d-block w-100" alt="Main Product Image 1">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="https://placehold.co/400x400/999999/FFFFFF/png?text=Side" class="d-block w-100" alt="Main Product Image 2">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="https://placehold.co/400x400/cccccc/000000/png?text=Back" class="d-block w-100" alt="Main Product Image 3">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="https://placehold.co/400x400/dddddd/000000/png?text=Angle" class="d-block w-100" alt="Main Product Image 4">
+                                                </div>
+                                            </div>
+                                            <div class="carousel-caption">
+                                                <h5 class="product-name">Noise-Cancelling Headphones</h5>
+                                                <p class="product-price">$149.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card product-card h-100 shadow-sm">
+                           </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-4">
+                         <div class="card product-card h-100 shadow-sm">
+                           </div>
+                    </div>
+
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="{% static 'marketplace/base2.js' %}"></script>
+</body>
+</html>

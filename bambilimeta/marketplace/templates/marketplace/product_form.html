@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create product</title>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {{ form.as_p }}
+
+  {{ formset.management_form }}
+
+  {% for image_form in formset %}
+    {{ image_form.as_p }}
+  {% endfor %}
+
+  <button type="submit">Save Product</button>
+</form>
+</body>
+</html>

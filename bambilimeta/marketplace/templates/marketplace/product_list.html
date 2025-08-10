@@ -1,0 +1,17 @@
+{% extends "marketplace/base.html" %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+{% for product in products %}
+    <div style="padding: 20px; border: 1px solid #ccc; margin-bottom: 20px;">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: {{ product.price }}</p>
+        <a href="{% url 'market:product_detail' product.id %}">View Details</a>
+    </div>
+{% empty %}
+    <p>No products available.</p>
+{% endfor %}
+
+{% endblock %}

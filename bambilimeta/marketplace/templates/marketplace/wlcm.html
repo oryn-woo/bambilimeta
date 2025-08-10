@@ -1,0 +1,104 @@
+{% extends 'marketplace/base4.html' %}
+{% load static %}
+{% block content %}
+    <div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="#" class="logo"><strong>Bambili</strong> Housing</a>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+										<li><a href="#" class="icon brands fa-whatsapp"><span class="label">WhatsApp</span></a></li>
+									</ul>
+								</header>
+
+							<!-- Banner -->
+							{% if not show_hero %}
+								<section id="banner">
+									<div class="content">
+										<header>
+											<h1>Shop Student Essentials<br />
+											Simplify Your Life<br>
+											</h1>
+											<p>Welcome to hassle-free student shoping</p>
+										</header>
+										<p>
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab amet assumenda aut cupiditate eius esse ex excepturi, impedit labore mollitia perferendis, porro possimus quod quos soluta, temporibus ut voluptatibus!
+										</p>
+										<ul class="actions">
+											<li><a href="#listings" class="button big">Learn More</a></li>
+										</ul>
+									</div>
+									<span class="image object">
+										<img src="{% static 'marketplace/images2/pic10.jpg' %}" alt="" />
+									</span>
+								</section>
+
+							<!-- Section -->
+
+								<section>
+									<header class="major">
+										<h2>Services</h2>
+									</header>
+									<div class="features">
+										<article>
+											<span class="icon fa-gem"></span>
+											<div class="content">
+												<h3>Premium Picks</h3>
+												<p>Discover curated selection of top quality tech gadgets, fashion clothing, room accessories handpicked for bambili-ians</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-paper-plane"></span>
+											<div class="content">
+												<h3>Instant Notifications</h3>
+												<p>Get real-time order updates and 1:1 support, keepin you in the loop and from checkout to doorstep</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-rocket"></span>
+											<div class="content">
+												<h3>Lightening Delivery</h3>
+												<p>Enjoy same-day delivery acroos campus and around bambili so you can stay stocked without missing a bit</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-signal"></span>
+											<div class="content">
+												<h3>Smart Budgeting</h3>
+												<p>Compare prices, track spending and unluck exclusive student discounts to make every dalasi go futher</p>
+											</div>
+										</article>
+									</div>
+								</section>
+							{% endif %}
+
+							<!-- Section -->
+								<section id="listings">
+									<header class="major">
+										<h2 class="lead fw-bold "><a href="{% url 'market:products' %}" class="button">Listing</a></h2>
+									</header>
+									<div class="posts ">
+										{% for product in products %}
+											<article>
+												<a href="#" class="image"><img src="{{ product.images.first.image.url }}" alt="" /></a>
+												<h2>{{ product.name }}</h2>
+												<p>{{ product.description|slice:"5" }}{% if product.description|length > 5%}<span class="d-inline-block mr-2 bg-primary rounded-pill p-1"></span><span class="d-inline-block bg-danger rounded-pill p-1"></span><span class="d-inline-block bg-dark rounded-pill p-1"></span>{% endif %}</p>
+												<ul class="actions">
+													<li><a href="{% url 'market:product_detail' product.id %}" class="button">More</a></li>
+													<li><a href="#" class="button">Del</a></li>
+													<li><a href="#" class="button">Less</a></li>
+												</ul>
+											</article>
+										{% endfor %}
+									</div>
+								</section>
+
+						</div>
+					</div>
+{% endblock %}

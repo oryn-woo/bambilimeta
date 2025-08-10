@@ -5,30 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Design a prototype navbar for the housing site homepage.">
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/review_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/default.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/OIP_2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_2_4FrjPb5.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_5.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_6_VYsuOky.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/th_6_nEIhHzs.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/housing.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/points.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/crit_error.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/static/marketplace/base2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/static/marketplace/base3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/static/marketplace/style2.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/static/marketplace/style3.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/elements.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/elements2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/generic.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/generic2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/index1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/wlcm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/tests/test_models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/OIP.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/OIP_1.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/OIP_2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/OIP_4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/download_1.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/th.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/th_3_jDOXRoG.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/th_5_UTV6wtS.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/th_6_5zc7NdR.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/profile_pics/photo_2025-05-01_03-26-04_-_Copy.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/profile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/thumbnails.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/users/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detailed.html" beforeDir="false" afterPath="$PROJECT_DIR$/detailed.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/media/default.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/media/default.jpeg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +75,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -58,28 +95,54 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python tests.Python tests for test_models.ProductModelTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates\housing" />
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\media" />
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\static\housing" />
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\templates" />
-      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\images" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\general_auth\static\general_auth" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\general_auth\templates\general_auth" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\marketplace\templates\marketplace" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\marketplace\static\marketplace" />
+      <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\marketplace\static\marketplace\scripts" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Python tests for test_models.ProductModelTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="BambiliMeta" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="DJANGO_SETTINGS_MODULE" value="bambilimeta.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bambilimeta/marketplace/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_models.ProductModelTest&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests for test_models.ProductModelTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5b207ade9991-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.17890.14" />
+        <option value="bundled-python-sdk-337b0a7a993a-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.19416.19" />
       </set>
     </attachedChunks>
   </component>

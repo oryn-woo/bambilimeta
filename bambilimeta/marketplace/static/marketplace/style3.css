@@ -1,0 +1,23 @@
+:root {
+  --blue-light: #daf2fe;
+  --blue-mid:   #6fbfff;
+  --blue-dark:  #1a73e8;
+}
+
+.glow-wrapper {
+  background-color: var(--blue-light);
+  box-shadow: 0 0 20px rgba(26, 115, 232, 0.3);
+}
+
+.bg-trust-blue {
+  background-color: var(--blue-dark) !important;
+}
+
+.thumbnails-scrollable {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}

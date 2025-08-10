@@ -23,6 +23,8 @@ from debug_toolbar import urls as debug_toolbar_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("housing/", include("housing.urls")),
+    path("market/", include("marketplace.urls")),
+    path("auth/", include("users.urls")),
 ]
 
 

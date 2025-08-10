@@ -1,0 +1,1 @@
+> * **Browser Level**: Cannot resolve keyword 'is_new' into field. Choices are: created_at, description, id, images, name, price, stock, updated_at

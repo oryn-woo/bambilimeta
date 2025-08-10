@@ -1,0 +1,182 @@
+/* css/style.css */
+
+/* ----------------------------- */
+/* -- 0. VARIABLES & GLOBALS --- */
+/* ----------------------------- */
+
+:root {
+    --primary-blue: #0a4d8c; /* Professional Dark Blue */
+    --secondary-blue: #3e88d1; /* Softer, Trustworthy Blue */
+    --light-blue-bg: #f0f7ff; /* Very Light Blue for backgrounds */
+    --accent-cyan: #00bcd4; /* Vibrant Cyan for highlights and CTAs */
+    --dark-text: #212529;
+    --light-text: #f8f9fa;
+    --font-primary: 'Poppins', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: #ffffff; /* Clean white background */
+}
+
+
+/* ----------------------------- */
+/* -------- 1. HERO ------------ */
+/* ----------------------------- */
+
+.hero-section {
+    max-height: 500px; /* Control hero height */
+    background-color: var(--dark-text); /* Fallback for image loading */
+}
+
+#heroCarousel .carousel-item {
+    height: 500px;
+}
+
+#heroCarousel .carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    filter: brightness(0.6); /* Darken images for text visibility */
+}
+
+.meta-welcome-card {
+    background-color: #1e2124; /* Dark terminal background */
+    color: var(--light-text);
+    padding: 2rem;
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.meta-text {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    white-space: pre-wrap; /* Allows wrapping */
+}
+
+.meta-prompt {
+    color: #4caf50; /* Green for prompt */
+}
+
+.text-cyan {
+    color: var(--accent-cyan) !important;
+}
+
+.cursor {
+    display: inline-block;
+    background-color: var(--light-text);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to { background-color: transparent }
+    50% { background-color: var(--light-text); }
+}
+
+/* ----------------------------- */
+/* -------- 2. NAVBAR ---------- */
+/* ----------------------------- */
+
+#main-navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Add a subtle shadow when navbar is stuck */
+#main-navbar.scrolled {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ----------------------------- */
+/* -- 3 & 4. PRODUCTS & GLOW --- */
+/* ----------------------------- */
+
+.glowing-wrapper {
+    background-color: var(--light-blue-bg);
+    border: 1px solid #cde4fe;
+    /* The Glow Effect */
+    box-shadow: 0 0 25px 8px rgba(62, 136, 209, 0.15);
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.glowing-wrapper:hover {
+    box-shadow: 0 0 35px 12px rgba(62, 136, 209, 0.25);
+    transform: translateY(-2px);
+}
+
+.product-card {
+    border: none; /* Let the shadow define the card */
+    overflow: hidden; /* Important for child elements to respect rounded corners */
+    transition: transform 0.2s ease-in-out;
+}
+
+.thumbnail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 350px; /* Fixed height for the column */
+    overflow-y: auto; /* Enable vertical scroll */
+    padding-right: 5px; /* Space for scrollbar */
+}
+
+/* Custom Scrollbar for a cleaner look */
+.thumbnail-column::-webkit-scrollbar { width: 5px; }
+.thumbnail-column::-webkit-scrollbar-track { background: #f1f1f1; }
+.thumbnail-column::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
+.thumbnail-column::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+.thumbnail-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0.375rem; /* Bootstrap's .rounded-2 */
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.thumbnail-img:hover {
+    transform: scale(1.05);
+}
+
+.thumbnail-img.active {
+    border-color: var(--secondary-blue);
+}
+
+.product-image-carousel {
+    height: 350px; /* Match the thumbnail column height */
+}
+
+.product-image-carousel .carousel-inner,
+.product-image-carousel .carousel-item,
+.product-image-carousel .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-image-carousel .carousel-caption {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+    padding-top: 1.5rem;
+    text-align: left;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.product-name {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
