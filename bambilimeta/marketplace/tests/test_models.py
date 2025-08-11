@@ -9,6 +9,19 @@ django.setup()
 class ProductModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+
+        """Sets up the test data for this TestCase.
+
+        The setUpTestData method is called with each test method to setup the
+        required fixture for the test. The default implementation of this
+        method does nothing.
+
+        This method is called before the test method is executed. It is not
+        called if the test method uses a database fixture, or if the test is
+        marked with the @expectedFailure decorator.
+
+        """
+
         cls.product = Product.objects.create(
             name="Test Product",
             price=19.99,

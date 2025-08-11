@@ -1,0 +1,469 @@
+{% extends "housing/base.html" %}
+{% load static %}
+{% block body %}
+
+{% if messages %}
+  <div class="container mt-3 my-3 mb-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+<!-- Hero Section -->
+
+<div class="hero-section d-flex align-items-center justify-content-center text-center py-5" style="background: linear-gradient(135deg, #232526 0%, #414345 100%); min-height: 60vh; position: relative;">
+  <div class="container position-relative z-2">
+    <!-- Animated Heading -->
+    <h1 class="display-3 fw-bold mb-3 animated-gradient-text">
+      <i class="bi bi-gem me-2 text-gem"></i>
+      Find Your <span class="text-metal">Dream Home</span>
+      <i class="bi bi-house-door-fill ms-2 text-metal"></i>
+    </h1>
+    <!-- Subheading with icons -->
+    <p class="lead mb-4 text-light">
+      <i class="bi bi-geo-alt-fill text-gem me-1"></i>
+      Bambili’s best rentals, curated for you
+      <i class="bi bi-stars text-gem ms-1"></i>
+    </p>
+    <!-- Centered Search Bar -->
+    <form method="get" action="{% url 'housing:house-list' %}" class="d-flex justify-content-center">
+  <div class="input-group input-group-lg hero-search-group shadow-lg flex-column flex-sm-row w-100" style="max-width: 600px;">
+    <span class="input-group-text bg-gradient text-gem border-0"><i class="bi bi-search"></i></span>
+    <input type="text" name="q" class="form-control border-0" placeholder="Search by location, price, or keyword..." aria-label="Search homes">
+    <button class="btn btn-metal fw-bold px-4" type="submit">Search</button>
+  </div>
+</form>
+    <!-- Decorative icons row -->
+  <div class="mt-4 d-flex justify-content-center gap-4 flex-wrap decorative-icons">
+  <i class="bi bi-lightning-charge-fill fs-2 text-gem"></i>
+  <i class="bi bi-shield-lock-fill fs-2 text-metal"></i>
+  <i class="bi bi-trophy-fill fs-2 text-gem"></i>
+  <i class="bi bi-star-fill fs-2 text-metal"></i>
+  <i class="bi bi-heart-fill fs-2 text-gem"></i>
+</div>
+  </div>
+</div>
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<!-- Hero Section Custom CSS -->
+<style>
+.hero-section {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  position: relative;
+  overflow: hidden;
+}
+.animated-gradient-text {
+  background: linear-gradient(90deg, #ffd700, #b9f2ff, #e0115f, #ffd700, #b9f2ff, #e0115f);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 3s linear infinite;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.text-gem {
+  background: linear-gradient(90deg, #b9f2ff, #e0115f, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-metal, .btn-metal {
+  background: linear-gradient(90deg, #d4af37, #b0b0b0, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffd700;
+  border: none;
+}
+.btn-metal {
+  background: linear-gradient(90deg, #ffd700, #b0b0b0, #d4af37);
+  color: #232526;
+  border-radius: 2rem;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-metal:hover {
+  background: linear-gradient(90deg, #e0115f, #ffd700, #b9f2ff);
+  color: #fff;
+}
+.hero-search-group .form-control {
+  border-radius: 2rem 0 0 2rem;
+  background: #fff;
+}
+.hero-search-group .input-group-text {
+  border-radius: 2rem 0 0 2rem;
+  background: linear-gradient(90deg, #b9f2ff, #ffd700);
+  color: #232526;
+}
+.hero-search-group .btn {
+  border-radius: 0 2rem 2rem 0;
+}
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 40vh;
+    padding: 2rem 0;
+  }
+  .display-3 {
+    font-size: 2rem;
+  }
+  .hero-search-group {
+    flex-direction: column;
+  }
+}
+
+  .hero-search-group .form-control,
+.hero-search-group .input-group-text,
+.hero-search-group .btn {
+  border-radius: 2rem;
+}
+
+@media (max-width: 576px) {
+  .hero-search-group {
+    flex-direction: column !important;
+    max-width: 100% !important;
+  }
+  .hero-search-group .input-group-text,
+  .hero-search-group .form-control,
+  .hero-search-group .btn {
+    border-radius: 2rem !important;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .hero-search-group .btn {
+    margin-bottom: 0;
+  }
+}
+
+
+
+  /* Hero Section Enhancements */
+.hero-section {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  position: relative;
+  overflow: hidden;
+  animation: backgroundShift 10s infinite alternate;
+}
+
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #ffd700, #b9f2ff, #e0115f, #ffd700, #b9f2ff, #e0115f);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 3s linear infinite, fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.lead {
+  animation: fadeIn 2s ease-out 0.5s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.decorative-icons i {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+  .favorite-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #e0115f, #ffd700, #b9f2ff);
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 0 16px 4px #e0115f55, 0 0 32px 8px #ffd70033;
+  transition: box-shadow 0.3s, transform 0.2s;
+  animation: pulseGlow 2s infinite;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  text-decoration: none;
+}
+.favorite-link-btn i {
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 0 8px #e0115f99, 0 0 16px #ffd70099;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.favorite-link-btn:hover, .favorite-link-btn:focus {
+  box-shadow: 0 0 32px 8px #e0115faa, 0 0 48px 16px #ffd70077;
+  transform: scale(1.08) rotate(-6deg);
+  outline: none;
+}
+.favorite-link-btn:hover i, .favorite-link-btn:focus i {
+  color: #ffd700;
+  text-shadow: 0 0 16px #ffd700cc, 0 0 32px #e0115fcc;
+}
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 16px 4px #e0115f55, 0 0 32px 8px #ffd70033;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 32px 12px #e0115faa, 0 0 48px 16px #ffd70077;
+    transform: scale(1.06);
+  }
+}
+
+</style>
+
+
+
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasMenu">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Menu</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-dark text-white dropdown">
+        <a class="dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">Houses</a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="#">All Houses</a></li>
+          <li>
+            <a href="{% url 'housing:favorite_list' %}" class="favorite-link-btn" aria-label="Go to Favorites"><i class="bi bi-heart-fill"></i>Favorites</a>
+            </li>
+          <li><a class="dropdown-item" href="#">Add New</a></li>
+        </ul>
+      </li>
+      <li class="list-group-item bg-dark text-white dropdown">
+        <a class="dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">Account</a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Houses Grid -->
+<div class="container py-5">
+  <div class="row g-4">
+    {% for house in favorites %}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card house-card border-0 shadow-lg position-relative overflow-hidden animate-border">
+        <!-- Carousel -->
+        {% if house.images.exists %}
+        <div id="carousel-{{ house.id }}" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for img in house.images.all %}
+            <button type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></button>
+            {% endfor %}
+          </div>
+          <div class="carousel-inner rounded-4">
+            {% for img in house.images.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ img.image.url }}" class="d-block w-100 object-fit-cover" style="height: 300px;" alt="House image">
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+        {% else %}
+        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
+          <span class="text-white-50">No image</span>
+        </div>
+        {% endif %}
+        <!-- Overlay -->
+        <div class="card-img-overlay d-flex flex-column justify-content-between p-3 bg-gradient bg-opacity-50" style="background: rgba(0,0,0,0.4);">
+  <div class="d-flex justify-content-between align-items-center">
+    <span class="badge bg-warning text-primary fs-6 shadow">${{ house.price|default:"N/A" }}</span>
+<!--        <button class="btn btn-outline-light btn-sm rounded-circle shadow favorite-btn" aria-label="Favorite" style="position: relative; z-index: 2;">-->
+<!--          <i class="bi bi-heart"></i>-->
+<!--        </button>-->
+    <button class="btn btn-outline-light btn-sm rounded-circle shadow favorite-btn"
+    data-house-id="{{ house.id }}"
+    data-favorited="{{ house.is_favorited|yesno:'true,false' }}"
+    aria-label="Favorite" style="position: relative; z-index: 2;">
+  <i class="bi {{ house.is_favorited|yesno:'bi-heart-fill,bi-heart' }}"></i>
+</button>
+
+
+
+  </div>
+  <div style="position: relative;">
+    <h5 class="card-title text-white fw-bold text-truncate"><a href="{% url 'housing:house_detail' house.id %}" class="btn btn-outline-warning text-primary" >{{ house.title|truncatewords:10 | title }}</a></h5>
+    <p class="card-text text-white-50 mb-1"><i class="bi bi-geo-alt"></i> {{ house.location|truncatewords:5 }}</p>
+
+  </div>
+</div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <h4 class="display-6 text-muted">No homes listed</h4>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 pt-4 pb-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Bambili Rentals</h5>
+        <p class="text-muted">Find your next home with ease and confidence.</p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Quick Links</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">List a House</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Contact</h6>
+        <p class="text-white-50 mb-1"><i class="bi bi-envelope"></i> info@bambilirentals.com</p>
+        <p class="text-white-50"><i class="bi bi-telephone"></i> +123 456 7890</p>
+      </div>
+    </div>
+    <div class="text-center text-white-50 mt-3">
+      &copy; {{ year|default:2024 }} Bambili Rentals. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Custom CSS for animated borders and card effects -->
+<style>
+.house-card {
+  border-radius: 1.5rem;
+  transition: box-shadow 0.3s, border-color 0.5s;
+  border: 4px solid #343a40;
+  box-shadow: 0 0 0 0 rgba(0,0,0,0.2);
+  overflow: hidden;
+  position: relative;
+}
+.house-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  animation: borderColorAnim 2s linear infinite;
+}
+@keyframes borderColorAnim {
+  0% { border-color: #343a40; }
+  25% { border-color: #0d6efd; }
+  50% { border-color: #198754; }
+  75% { border-color: #ffc107; }
+  100% { border-color: #343a40; }
+}
+.favorite-btn {
+  background: rgba(0,0,0,0.3);
+  border: none;
+  color: #fff;
+  transition: color 0.2s;
+}
+.favorite-btn:hover {
+  color: #e25555;
+}
+
+.favorite-btn[data-favorited="true"] i,
+.favorite-btn .bi-heart-fill {
+  color: #e25555 !important;
+}
+
+.carousel-inner img {
+  object-fit: cover;
+  height: 300px;
+  border-radius: 1.5rem;
+}
+@media (max-width: 576px) {
+  .carousel-inner img {
+    height: 200px;
+  }
+}
+</style>
+
+
+<script >
+  /**
+   * Toggles a house as a favorite for the current user.
+   * @param {number} houseId - The ID of the house to toggle.
+   * @param {string} action - The action to take, either "add" or "remove".
+   * @returns {Promise<void>} - A promise that resolves when the favorite is toggled.
+   */
+  function toggleFavorite(houseId, action) {
+    // Construct the URL for the AJAX request
+    const url = `/favorites/${action}/${houseId}/`;
+
+    // Make the AJAX request to toggle the favorite
+    fetch(url, {
+      method: "POST",
+      headers: {
+        // Include the CSRF token to prevent CSRF attacks
+        "X-CSRFToken": "{{ csrf_token }}"
+      }
+    })
+      // Parse the response as JSON
+    fetch(url, { method: "POST", headers: { "X-CSRFToken": "{{ csrf_token }}" } })
+      .then(response => response.json())
+      // Reload the page when the favorite is toggled
+      .then(data => location.reload());
+  }
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".favorite-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const houseId = btn.dataset.houseId;
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        const response = await fetch("{% url 'housing:favorite_toggle' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": csrftoken
+          },
+          body: new URLSearchParams({ house_id: houseId })
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const icon = btn.querySelector("i");
+
+        if (data.is_favorited) {
+          icon.classList.remove("bi-heart");
+          icon.classList.add("bi-heart-fill", "text-danger");
+          btn.dataset.favorited = "true";
+        } else {
+          icon.classList.remove("bi-heart-fill", "text-danger");
+          icon.classList.add("bi-heart");
+          btn.dataset.favorited = "false";
+        }
+      });
+    });
+  });
+</script>
+
+
+
+{% endblock body %}

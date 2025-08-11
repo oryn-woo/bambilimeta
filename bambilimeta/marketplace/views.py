@@ -45,9 +45,18 @@ class ProductListView(ListView):
     context_object_name = "products"
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """
+        Get the context for the home page.
+
+        :param object_list: The list of objects to be displayed
+        :param kwargs: Additional keyword arguments
+        :return: The context for the home page
+        """
         context = super().get_context_data(**kwargs)
+        # If the request was made from the home page, show the hero section
         from_home = self.request.GET.get("from") == "home"
         context["show_hero"] = from_home
+        # Get the first product as the hero product
         context["hero_product"] = Product.objects.first()
         return context
 

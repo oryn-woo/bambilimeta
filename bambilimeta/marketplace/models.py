@@ -3,10 +3,12 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)

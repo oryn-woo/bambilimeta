@@ -1,0 +1,30 @@
+.offcanvas-body {
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+
+  .custom-dropdown {
+    margin-bottom: 1.5rem;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    text-align: left;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  }
+
+  .dropdown-item {
+    padding: 0.75rem 1rem;
+  }
+
+    /* FONT */
+    .bungee-regular {
+        font-family: "Bungee", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        margin-top: 4rem;
+        }

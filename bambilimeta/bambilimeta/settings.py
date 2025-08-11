@@ -32,32 +32,33 @@ ALLOWED_HOSTS = []
 
 # Application definition
 TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
-if not TESTING:
-    INSTALLED_APPS = [
-        "housing.apps.HousingConfig",
-        "marketplace.apps.MarketplaceConfig",
-        "users.apps.GeneralAuthConfig",
-        "debug_toolbar",
-        "phonenumber_field",
-        "widget_tweaks",
-        'django.contrib.admin',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
-        'django.contrib.staticfiles',
-    ]
 
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    "housing.apps.HousingConfig",
+    "marketplace.apps.MarketplaceConfig",
+    "users.apps.GeneralAuthConfig",
+    "debug_toolbar",
+    "phonenumber_field",
+    "widget_tweaks",
+    "django.contrib.humanize",  # Built into django, provides humanize filters like natural time, etc.
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
 
 ROOT_URLCONF = 'bambilimeta.urls'
 
@@ -199,3 +200,10 @@ INTERNAL_IPS = [
 
 LOGIN_URL = "auth:login"
 LOGIN_REDIRECT_URL = 'auth:profile'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}

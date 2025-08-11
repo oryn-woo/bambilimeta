@@ -1,0 +1,173 @@
+
+.hero-section {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  position: relative;
+  overflow: hidden;
+}
+.animated-gradient-text {
+  background: linear-gradient(90deg, #ffd700, #b9f2ff, #e0115f, #ffd700, #b9f2ff, #e0115f);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 3s linear infinite;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.text-gem {
+  background: linear-gradient(90deg, #b9f2ff, #e0115f, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-metal, .btn-metal {
+  background: linear-gradient(90deg, #d4af37, #b0b0b0, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffd700;
+  border: none;
+}
+.btn-metal {
+  background: linear-gradient(90deg, #ffd700, #b0b0b0, #d4af37);
+  color: #232526;
+  border-radius: 2rem;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-metal:hover {
+  background: linear-gradient(90deg, #e0115f, #ffd700, #b9f2ff);
+  color: #fff;
+}
+.hero-search-group .form-control {
+  border-radius: 2rem 0 0 2rem;
+  background: #fff;
+}
+.hero-search-group .input-group-text {
+  border-radius: 2rem 0 0 2rem;
+  background: linear-gradient(90deg, #b9f2ff, #ffd700);
+  color: #232526;
+}
+.hero-search-group .btn {
+  border-radius: 0 2rem 2rem 0;
+}
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 40vh;
+    padding: 2rem 0;
+  }
+  .display-3 {
+    font-size: 2rem;
+  }
+  .hero-search-group {
+    flex-direction: column;
+  }
+}
+
+  .hero-search-group .form-control,
+.hero-search-group .input-group-text,
+.hero-search-group .btn {
+  border-radius: 2rem;
+}
+
+@media (max-width: 576px) {
+  .hero-search-group {
+    flex-direction: column !important;
+    max-width: 100% !important;
+  }
+  .hero-search-group .input-group-text,
+  .hero-search-group .form-control,
+  .hero-search-group .btn {
+    border-radius: 2rem !important;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .hero-search-group .btn {
+    margin-bottom: 0;
+  }
+}
+
+
+
+  /* Hero Section Enhancements */
+.hero-section {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  position: relative;
+  overflow: hidden;
+  animation: backgroundShift 10s infinite alternate;
+}
+
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #ffd700, #b9f2ff, #e0115f, #ffd700, #b9f2ff, #e0115f);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 3s linear infinite, fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.lead {
+  animation: fadeIn 2s ease-out 0.5s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.decorative-icons i {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+  .favorite-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #e0115f, #ffd700, #b9f2ff);
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 0 16px 4px #e0115f55, 0 0 32px 8px #ffd70033;
+  transition: box-shadow 0.3s, transform 0.2s;
+  animation: pulseGlow 2s infinite;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  text-decoration: none;
+}
+.favorite-link-btn i {
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 0 8px #e0115f99, 0 0 16px #ffd70099;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.favorite-link-btn:hover, .favorite-link-btn:focus {
+  box-shadow: 0 0 32px 8px #e0115faa, 0 0 48px 16px #ffd70077;
+  transform: scale(1.08) rotate(-6deg);
+  outline: none;
+}
+.favorite-link-btn:hover i, .favorite-link-btn:focus i {
+  color: #ffd700;
+  text-shadow: 0 0 16px #ffd700cc, 0 0 32px #e0115fcc;
+}
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 16px 4px #e0115f55, 0 0 32px 8px #ffd70033;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 32px 12px #e0115faa, 0 0 48px 16px #ffd70077;
+    transform: scale(1.06);
+  }
+}
+

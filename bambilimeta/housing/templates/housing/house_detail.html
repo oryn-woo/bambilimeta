@@ -1,89 +1,313 @@
 {% extends 'housing/base.html' %}
-{% block style %}
-    /* Ensure all thumbnails are the same height and cropped */
-    .thumb-img {
-      width: 60%;
-      height: 120px;
-      object-fit: cover;
-    }
-    /* Fix the height of the left pane and enable vertical scrolling */
-    .overview-pane {
-    max-height: 30rem;
-      overflow-y: auto;
-    }
-.carousel-card {
-height: 34rem;
-}
-.carousel {
-height: 100%
-}
-
-carousel-item img {
-height: 100%;
-object-fit: cover;
-}
-
-{% endblock style %}
+{% load static humanize widget_tweaks %}
 
 {% block body %}
-
-
-<div class="container py-4 justify-content-center align-items-center border border-dark">
-  <div class="row align-items-md-start">
-    <!-- LEFT COLUMN: Overview thumbnails stacked vertically -->
-    <div class="col-md-6 d-none d-md-block">
-      <div class="overview-pane position-relative border rounded p-2">
-
-        <div class="row row-cols-1 g-2">
-          <!-- Repeat for each thumbnail -->
-            {% for image in house_detail.images.all %}
-              <div class="col">
-                    <img src="{{ image.image.url }}" class="thumb-img rounded" alt="{{ house_detail.title }}">
-
-              </div>
-            {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: Bootstrap Carousel -->
-    <div class="col-md-6 justify-content-center align-items-center">
-      <div class="card carousel-card">
-        <div class="card-body p-0"> <!-- No padding so the carousel fills the card -->
-          <div id="houseCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {% for image in house_detail.images.all %}
-                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                    <img src="{{ image.image.url }}" class="d-block w-100" alt="Slide 1">
-                  </div>
-                {% endfor %}
-
-              <!-- Add more items as needed -->
+<div class="container-fluid bg-dark text-light py-4">
+    <div class="container">
+        <!-- Main Content Section -->
+        <div class="row g-4">
+            <!-- Main Carousel Column -->
+            <div class="col-lg-8">
+                <div id="houseCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner rounded-3">
+                        {% for image in house_detail.images.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100" alt="House image {{ forloop.counter }}" style="height: 600px; object-fit: cover;">
+                        </div>
+                        {% empty %}
+                        <div class="carousel-item active">
+                            <img src="{% static 'housing/html5up/images/default-house.jpg' %}" class="d-block w-100" alt="Default house image" style="height: 600px; object-fit: cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#houseCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#houseCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#houseCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#houseCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon"></span>
-            </button>
-          </div>
+
+            <!-- Thumbnails Column (Desktop) -->
+            <div class="col-lg-4 d-none d-lg-block">
+                <div class="d-flex flex-column h-100" style="max-height: 600px; overflow-y: auto;">
+                    {% for image in house_detail.images.all %}
+                    <div class="mb-3 thumbnail-container" data-bs-target="#houseCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}>
+                        <img src="{{ image.image.url }}" class="img-thumbnail w-100" alt="Thumbnail {{ forloop.counter }}" style="height: 180px; object-fit: cover; cursor: pointer; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s ease;">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Thumbnails Row (Mobile) -->
+            <div class="col-12 d-lg-none mt-3">
+                <div class="d-flex overflow-auto pb-2" style="gap: 10px;">
+                    {% for image in house_detail.images.all %}
+                    <div style="flex: 0 0 100px;" data-bs-target="#houseCarousel" data-bs-slide-to="{{ forloop.counter0 }}">
+                        <img src="{{ image.image.url }}" class="img-thumbnail" alt="Thumbnail {{ forloop.counter }}" style="width: 100px; height: 80px; object-fit: cover; cursor: pointer; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s ease;">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-          <div class="card-footer">
-          </div>
-      </div>
+
+        <!-- House Details Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="mb-4">{{ house_detail.title }}</h2>
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <span class="badge bg-primary p-2 fs-1"><i class="bi bi-geo-alt-fill me-1 fs-3"></i> {{ house_detail.location }}</span>
+                    <span class="badge bg-success p-2 fs-1"><i class="bi bi-currency-dollar me-1 fs-3"></i> {{ house_detail.price|intcomma }}/month</span>
+                    <span class="badge bg-info p-2 fs-1"><i class="bi bi-house-door-fill me-1 fs-3"></i> {{ house_detail.bedrooms }} Bedrooms</span>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <ul class="nav nav-tabs mb-4" id="houseTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link  fw-bold fs-1" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">Details</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold fs-1" id="amenities-tab" data-bs-toggle="tab" data-bs-target="#amenities" type="button" role="tab">Amenities</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fw-bold fs-1" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab">Location</button>
+                    </li>
+                </ul>
+
+                <!-- Tabs Content -->
+                <div class="tab-content p-3 bg-dark bg-opacity-25 rounded-3" id="houseTabsContent">
+                    <div class="tab-pane fade show " id="details" role="tabpanel">
+                        <h4 class="mb-3">Property Details</h4>
+                        <p class="text-light">{{ house_detail.house_desc }}</p>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="bi bi-rulers me-2"></i> <strong>Area:</strong> {{ house_detail.area|default:"N/A" }} sq ft</li>
+                                    <li class="mb-2"><i class="bi bi-door-closed me-2"></i> <strong>Bedrooms:</strong> {{ house_detail.bedrooms|default:"N/A" }}</li>
+                                    <li class="mb-2"><i class="bi bi-bath me-2"></i> <strong>Bathrooms:</strong> {{ house_detail.bathrooms|default:"N/A" }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="bi bi-calendar-event me-2"></i> <strong>Available from:</strong> {{ house_detail.available_from|date:"F j, Y"|default:"Immediately" }}</li>
+                                    <li class="mb-2"><i class="bi bi-building me-2"></i> <strong>Property Type:</strong> {{ house_detail.property_type|default:"N/A" }}</li>
+                                    <li class="mb-2"><i class="bi bi-car-front-fill me-2"></i> <strong>Parking:</strong> {{ house_detail.parking_spots|default:"0" }} spots</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="amenities" role="tabpanel">
+                        <h4 class="mb-3">Amenities</h4>
+                        <div class="row">
+                            {% for amenity in house_detail.amenities.all %}
+                            <div class="col-6 col-md-4 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span>{{ amenity.name }}</span>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12">
+                                <p>No amenities listed for this property.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show active" id="location" role="tabpanel">
+                        <h4 class="mb-3">Location</h4>
+                        <!--<div id="map" style="height: 300px; width: 100%;" class="rounded-3 mb-3"></div>-->
+                        <p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> {{ house_detail.location|default:"Address not provided" }}</p>
+                        <p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> {{ house_detail.owner.phone_number|default:"Address not provided" }}</p>
+                        <p><i class="bi bi-info-circle-fill me-2"></i> {{ house_detail.house_desc|default:"No additional location information available." }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="mb-4 text-center display-4 fw-bold ">Reviews</h3>
+                {% if reviews %}
+                <div class="list-group">
+                    <div class="row ">
+                        {% for review in reviews %}
+                            <div class="col-12 col-md-6 mb-3">
+
+                                <div class="list-group-item bg-dark bg-opacity-25 border-light mb-3 rounded-3">
+                                    <div class="d-flex w-100 justify-content-between mb-2">
+                                        <h5 class="mb-1 text-primary"><i class="bi bi-person p-2 me-2 fs-2"></i>{{ review.author.get_full_name|default:review.author.username }}</h5>
+                                        <small class="text-muted text-light">{{ review.reviewed_on|timesince }} ago</small>
+                                    </div>
+                                    <div class="mb-2">
+                                        {% for i in "12345" %}
+                                        <i class="bi bi-star{% if forloop.counter > review.rating %}-fill text-light{% else %}-fill text-warning{% endif %}"></i>
+                                        {# loops over a string of length 5, and if the current it adds a gray, else it adds a gold star, eventually a rating of 3, is yellow until counter reaches 4 where it becomes gray#}
+                                        {% endfor %}
+                                    </div>
+                                    <p class="mb-1 text-light">{{ review.comment }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    No reviews yet. Be the first to review this property!
+                </div>
+                {% endif %}
+
+                <!-- Add Review Form -->
+                {% if user.is_authenticated %}
+                <div class="card bg-dark bg-opacity-25 border-light mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Write a Review</h5>
+                        <form method="post" action="{% url 'housing:house_review' house_detail.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="{{ review_form.rating.id_for_label }}" class="form-label">Rating</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    </span>
+                                    {{ review_form.rating }}
+                                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" title="1 Star = Worst, 5 Stars = Best">
+                                        <i class="bi bi-question-circle"></i>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ review_form.comment.id_for_label }}" class="form-label">Your Review</label>
+                                {{ review_form.comment }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning mt-4">
+                    <a href="{% url 'auth:login' %}?next={{ request.path }}" class="alert-link">Sign in</a> to leave a review.
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-{% endblock body %}
+<!-- Custom CSS -->
+<style>
+    /* Base dark theme */
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
 
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #2d2d2d;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #777;
+    }
+
+    /* Tab styling */
+    .nav-tabs .nav-link {
+        color: #adb5bd;
+        border: 1px solid transparent;
+        border-bottom: none;
+        margin-right: 5px;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #0d6efd;
+        background-color: rgba(13, 110, 253, 0.1);
+        border-color: #495057 #495057 #0d6efd;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: transparent;
+        color: #fff;
+    }
+
+    /* Thumbnail hover effect */
+    .thumbnail-container img {
+        transition: all 0.3s ease;
+        opacity: 0.7;
+    }
+
+    .thumbnail-container:hover img,
+    .thumbnail-container.active img {
+        opacity: 1;
+        border-color: #0d6efd !important;
+        transform: scale(1.02);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 991.98px) {
+        .carousel-item img {
+            height: 400px !important;
+        }
+
+        .thumbnail-container {
+            flex: 0 0 80px !important;
+        }
+
+        .thumbnail-container img {
+            height: 60px !important;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .carousel-item img {
+            height: 300px !important;
+        }
+    }
+</style>
+
+<!-- JavaScript for carousel and thumbnails interaction -->
 {% block script %}
-    document.querySelectorAll('.thumb-img').forEach((img, idx) => {
-  img.addEventListener('click', () => {
-  const carouselEl = document.getElementById('houseCarousel');
-  const carousel = bootstrap.Carousel.getInstance(carouselEl) || new bootstrap.Carousel(carouselEl);
-  carousel.to(idx);
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('houseCarousel');
+        const thumbnails = document.querySelectorAll('.thumbnail-container');
 
-  });
-  });
+        // Highlight active thumbnail
+        carousel.addEventListener('slid.bs.carousel', function (e) {
+            const activeIndex = Array.from(carousel.querySelectorAll('.carousel-item')).indexOf(carousel.querySelector('.carousel-item.active'));
+            thumbnails.forEach((thumb, index) => {
+                if (index === activeIndex) {
+                    thumb.classList.add('active');
+                    thumb.querySelector('img').style.borderColor = '#0d6efd';
+                } else {
+                    thumb.classList.remove('active');
+                    thumb.querySelector('img').style.borderColor = 'transparent';
+                }
+            });
+        });
+
+        // Initialize first thumbnail as active
+        if (thumbnails.length > 0) {
+            thumbnails[0].classList.add('active');
+            thumbnails[0].querySelector('img').style.borderColor = '#0d6efd';
+        }
+    });
+</script>
+
 {% endblock script %}
+
+{% endblock %}
