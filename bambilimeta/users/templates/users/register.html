@@ -2,26 +2,231 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>{{ title }}</title>
+    <style>
+        /* Mobile-first styles */
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e);
+            background-size: 400% 400%;
+            animation: warm-flow 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        @keyframes warm-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .content-section {
+                max-width: 800px;
+            }
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .input-group {
+            transition: transform 0.3s ease;
+        }
+
+        .input-group:hover,
+        .input-group:focus-within {
+            animation: jelly 0.6s ease;
+        }
+
+        @keyframes jelly {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05, 0.95); }
+            50% { transform: scale(0.95, 1.05); }
+            75% { transform: scale(1.02, 0.98); }
+        }
+
+        .form-control {
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 15px rgba(255, 150, 0, 0.3);
+            border-color: #ff9a9e;
+        }
+
+
+        .ig-left {
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+        }
+
+        .ig-input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .btn-outline-info {
+            border-radius: 1rem;
+            padding: 0.75rem 2rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-color: #ff9a9e;
+            color: #ff9a9e;
+        }
+
+        .btn-outline-info:hover {
+            background-color: #ff9a9e;
+            color: white;
+            animation: jelly 0.6s ease;
+        }
+
+        .btn-outline-warning {
+            border-radius: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-outline-warning:hover {
+            animation: jelly 0.6s ease;
+        }
+
+
+        /* Icons softness */
+        i.bi {
+            transition: transform 0.3s ease;
+        }
+
+        label:hover i.bi,
+        .input-group-text:hover i.bi {
+            animation: jelly 0.6s ease;
+            color: #ff9a9e;
+        }
+
+        /* Error messages */
+        .text-danger {
+            font-size: 0.875rem;
+        }
+    </style>
 </head>
 <body>
-
+    {% load widget_tweaks %}
     <div class="content-section">
         <form method="post">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">
-                    Join Today
-                </legend>
-                {{ form }} <!-- As P renders our form in paragraph tag.-->
+                <legend class="border-bottom mb-4 text-center lead display-2">Join Today</legend>
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            <i class="bi bi-person"></i> {{ form.username.label }}
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text ig-left"><i class="bi bi-at"></i></span>
+                            {% render_field form.username class="form-control ig-input" placeholder="Enter username" type="text" %}
+                            <span class="input-group-text bg-success"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="auto"
+                            title="Fill in your best username, must be unique.">
+                                <i class="bi bi-question-circle text-muted"></i>
+                            </span>
+                        </div>
+                        {% for error in form.username.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            <i class="bi bi-envelope"></i> {{ form.email.label }}
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text ig-left"><i class="bi bi-envelope"></i></span>
+                            {% render_field form.email class="form-control ig-input" placeholder="Enter your email" type="email" %}
+                            <span class="input-group-text bg-danger"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="auto"
+                            title="Fill in your best email for validation">
+                                <i class="bi bi-question-circle text-muted"></i>
+                            </span>
+                        </div>
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col">
+                        <label for="{{ form.password1.id_for_label }}" class="form-label">
+                            <i class="bi bi-lock"></i> {{ form.password1.label }}
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text ig-left"><i class="bi bi-lock"></i></span>
+                            {% render_field form.password1 class="form-control ig-input" placeholder="A strong password" type="password" %}
+                             <span class="input-group-text bg-primary"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="auto"
+                            title="Fill in your password at leats 8 chars in length, should corresponding withthat below.">
+                                <i class="bi bi-question-circle text-muted"></i>
+                            </span>
+                        </div>
+                        {% for error in form.password1.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col">
+                        <label for="{{ form.password2.id_for_label }}" class="form-label">
+                            <i class="bi bi-lock"></i> {{ form.password2.label }}
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text ig-left"><i class="bi bi-lock"></i></span>
+                            {% render_field form.password2 class="form-control ig-input" placeholder="Confirm password" type="password" %}
+                            <span class="input-group-text  bg-warning border-end-4"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="auto"
+                            title="Fill in your password again should correspond with that above.">
+                                <i class="bi bi-question-circle text-muted"></i>
+                            </span>
+                        </div>
+                        {% for error in form.password2.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
             </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            <div class="my-3">
+                <button class="btn btn-outline-info mx-auto d-block" type="submit"><i class="bi bi-arrow-repeat me-1"></i>Sign Up</button>
             </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">Already Have And Account? <a href="{% url 'auth:login' %}" class="ml-2">Sign In</a> </small>
+        <div class="my-3 text-center">
+            <small class="text-primary lead fw-bold">Got An Account? <a href="{% url 'auth:login' %}" class="btn btn-outline-warning fw-bold lead">Sign In</a></small>
         </div>
     </div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 </body>
 </html>

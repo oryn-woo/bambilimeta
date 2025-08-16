@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+  /*==========================================================================
+    Background slideshow
+  ==========================================================================*/
+  .profile-edit {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+  }
+  .profile-edit .slide {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: fadeSlides 24s infinite ease-in-out;
+  }
+  .profile-edit .slide:nth-child(1) { background-image: url('https://source.unsplash.com/1600x900/?nature'); animation-delay: 0s; }
+  .profile-edit .slide:nth-child(2) { background-image: url('https://source.unsplash.com/1600x900/?city');   animation-delay: 6s; }
+  .profile-edit .slide:nth-child(3) { background-image: url('https://source.unsplash.com/1600x900/?space');  animation-delay: 12s; }
+  .profile-edit .slide:nth-child(4) { background-image: url('https://source.unsplash.com/1600x900/?abstract'); animation-delay: 18s; }
+
+  @keyframes fadeSlides {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    23%  { opacity: 1; }
+    31%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  /*==========================================================================
+    Centered form card
+  ==========================================================================*/
+  .edit-card {
+    position: relative;
+    z-index: 2;
+    max-width: 480px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(15,17,25,0.75);
+    border-radius: 1rem;
+    padding: 2.5rem 1.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  }
+  .edit-card h2 {
+    color: #eef2ff;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .edit-card .input-group .form-control {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #eef2ff;
+  }
+  .edit-card .input-group .form-control::placeholder {
+    color: #c2cbe6;
+  }
+  .edit-card .input-group .btn {
+    background: linear-gradient(145deg, #f8e7a1, #d4af37);
+    color: #1a1a1a;
+    font-weight: 600;
+    border: none;
+  }
+  .edit-card .input-group .btn:hover {
+    filter: brightness(1.1);
+  }
+  .edit-card .form-label {
+    color: #cbd5e1;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+  }
+  .edit-card .file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  .edit-card .file-input-wrapper input[type=file] {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+</style>
+
+</head>
+<body>
+<!--
+  1. Add Bootstrap 5 & Font Awesome in your <head>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+-->
+
+
+<section class="profile-edit my-5 mt-5">
+  <!-- slides -->
+  <div class="slide"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+
+  <!-- form card -->
+  <div class="edit-card">
+    <h2>Update Your Profile</h2>
+    <form>
+      <!-- Name -->
+      <label for="name" class="form-label">Your Name</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-transparent border-0 text-muted">
+          <i class="fa-solid fa-user"></i>
+        </span>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          placeholder="John Doe"
+          aria-label="Name"
+        />
+      </div>
+
+      <!-- Email -->
+      <label for="email" class="form-label">Email Address</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-transparent border-0 text-muted">
+          <i class="fa-solid fa-envelope"></i>
+        </span>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="you@example.com"
+          aria-label="Email"
+        />
+      </div>
+
+      <!-- Bio -->
+      <label for="bio" class="form-label">Short Bio</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-transparent border-0 text-muted align-self-start pt-2">
+          <i class="fa-solid fa-comment"></i>
+        </span>
+        <textarea
+          id="bio"
+          class="form-control"
+          rows="3"
+          placeholder="Tell us a bit about yourself..."
+        ></textarea>
+      </div>
+
+      <!-- Profile Image -->
+      <label class="form-label">Profile Photo</label>
+      <div class="input-group mb-4 file-input-wrapper">
+        <span class="input-group-text bg-transparent border-0 text-muted">
+          <i class="fa-solid fa-camera"></i>
+        </span>
+        <button class="btn btn-sm" type="button">Choose file…</button>
+        <input type="file" accept="image/*" />
+      </div>
+
+      <!-- Submit -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-lg btn-block">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!--
+  2. Bootstrap JS (optional, only if you need dropdowns)
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+-->
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+
+</body>
+</html>

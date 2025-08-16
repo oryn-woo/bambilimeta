@@ -1,2 +1,4 @@
 > * Django does not sanitize filenames
 > * Check out widgets for various fields and how the can be customized
+> * Accessing user_profile.user.seller.all (or any related manager) in a template won’t cause N+1 by itself for a single Profile. It issues one query the first time it’s evaluated. N+1 happens when you iterate over a collection and, inside that loop, touch further relations (e.g., for each product, access product.category or product.images). Without prefetch/select_related, that pattern becomes N+1.
+> * Use select_related for single-valued relations (Profile → User) and prefetch_related (or Prefetch) for collections (User → Products/Houses).

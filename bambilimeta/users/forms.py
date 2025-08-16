@@ -12,28 +12,57 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    """
-    This form updates a particular model in the database, in this case the user model.
-    Will update their username and email.
-    """
-
+    """Update username and email."""
     class Meta:
         model = User
         fields = ["username", "email"]
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    """
-    This form allows us to update image.
-    """
+    """Update profile image, bio, phone number."""
     class Meta:
         model = Profile
         fields = ["image", "bio", "phone_number"]
+        widgets = {
+            "bio": forms.Textarea(attrs={
+                "rows": 10, "cols": 10
+            }),
+
+        }
 
 
 class AdminProfileUpdateForm(ProfileUpdateForm):
-    """
-    Created to add a layer of security when managing regular users and admins.
-    """
+    """Update profile incl. role (for admin use)."""
     class Meta(ProfileUpdateForm.Meta):
         fields = ["image", "phone_number", "bio", "role"]
+        widgets = {
+            "bio": forms.Textarea(attrs={
+                "rows": 10, "cols": 10
+            }),
+            "role": forms.Select(attrs={
+                "class": "form-select"
+            }),
+            "image": forms.FileInput(attrs={
+                "class": "form-control"
+            })
+        }
+
+
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields = ["image", "role", "phone_number", "bio"]
+#         widgets = {
+#             "role": forms.Select(attrs={
+#                 "class": "form-control"
+#             }),
+#             "phone_number": forms.TextInput(attrs={
+#                 "class": "form-control"
+#             }),
+#             "bio": forms.Textarea(attrs={
+#                 "class": "form-control", "rows": 4
+#             }),
+#             "image": forms.ClearableFileInput(attrs={
+#                 "class": "form-control-file"
+#             })
+#         }

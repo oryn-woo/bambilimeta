@@ -1,36 +1,427 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8" />
+  {% load static %}
+  {% load custom_filters %}
+  {% load widget_tweaks %}
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ user_profile.user.username }} — Building products that earn trust</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Font Awesome (icons) -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    rel="stylesheet"
+    integrity="sha512-gKwIGx1mZyG6G2cWB9q7u6O0xA5x4o8HhQK0Q8wh9n7WkWmF4uI3jzq6+Z2LkqX2o5NnQWZ3WvV+J8xK2sLZJQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="{% static 'users/css/profiles.css' %}">
+<style>
+  /* Roomier, readable tooltips */
+  .tt-wide .tooltip-inner { max-width: 260px; }
+  @media (max-width: 576px) {
+    .tt-wide .tooltip-inner { max-width: 320px; }
+  }
+
+  /* Seamless borders between addons and inputs */
+  .ig-left { background: #f8f9fa; border-right: 0; }
+  .ig-input { border-left: 0; border-right: 0; }
+  .ig-right { background: #f8f9fa; border-left: 0; }
+
+
+    .success-message {
+  animation: fadeInScale 0.6s ease-in-out;
+  background-color: #e6ffed;
+  border: 1px solid #b2f5ea;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+</style>
+
 </head>
 <body>
 
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
+  <header class="wrap nav-hero">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true">G</div>
+      <div>{{ user_profile.user.username }}</div>
+    </div>
+    <a href="#contact" class="pill">Let’s talk</a>
+  </header>
+{% if messages %}
+    <div class="success-message">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+  {% endif %}
+  <main class="wrap">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-card reveal">
+        <div class="profile">
+          <div class="avatar">
+            <!-- Replace with your photo -->
+            <img src="{{ user_profile.image.url }}" alt="Profile photo of {{ user_profile.user.username }}">
+          </div>
+          <div>
+            <div style="font-weight:600; color:#cbd5e1;">Web Engineer — Django, UX-minded</div>
+            <h1>
+              Crafting <span class="accent">trustworthy</span> digital products
+            </h1>
+          </div>
+        </div>
+
+        <p class="hero-sub">
+          I build reliable, maintainable web apps. I care about clarity, performance, and experiences that earn confidence.
+          <span class="animated-words" aria-live="polite">
+            <span class="active">Clean architecture.</span>
+            <span>Secure by design.</span>
+            <span>Elegant interfaces.</span>
+            <span>Measured performance.</span>
+          </span>
+        </p>
+
+        <div class="badges">
+          <div class="badge-chip"><i class="bi bi-shield-check"></i> {{ user_profile.role }}</div>
+          <div class="badge-chip"><i class="bi bi-cpu"></i> Performance first</div>
+          <div class="badge-chip"><i class="bi bi-bricks"></i> Scalable patterns</div>
+          <div class="badge-chip"><i class="bi bi-people"></i> Human-centered UX</div>
         </div>
       </div>
-      <!-- FORM HERE -->
+    </section>
 
-     <form method="post" enctype="multipart/form-data">  <!-- This part, enctype="multipart/form-data ensures image data in encrypted properly-->
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">
-                Profile Info
-            </legend>
-            {{ u_form}}
-            {{ p_form }}
+    <!-- What I Do -->
+    <section class="section">
+      <div class="panel reveal">
+        <h2 class="text-center test-lead">What I do</h2>
+        <p class="text-start">
+          {{ user_profile.bio }}
+        </p>
 
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Update</button>
+        <div class="checks">
+          <div class="check-item"><i class="fa-solid fa-check-circle"></i> Robust data modeling and database constraints.</div>
+          <div class="check-item"><i class="fa-solid fa-check-circle"></i> Thoughtful UI states, graceful fallbacks, and responsive layouts.</div>
+          <div class="check-item"><i class="fa-solid fa-check-circle"></i> Caching strategies that keep featured lists snappy.</div>
+          <div class="check-item"><i class="fa-solid fa-check-circle"></i> Testable, maintainable code with mixins and clear patterns.</div>
         </div>
-    </form>
+      </div>
+    </section>
+
+    <!-- Top Products -->
+    <section class="section">
+      <div class="section-title">
+        <h3>Top products</h3>
+        <div class="spark"></div>
+      </div>
+<div class="grid">
+  {% for item in portfolio_items %}
+    <article class="card reveal">
+      <div class="card-media">
+        <img src="{{ item.images.first.image.url|default:'fallback.jpg' }}" alt="Preview of {{ item.get_display_name }}">
+        <div class="ribbon">{{ item.is_new|yesno:"New,Popular" }}</div>
+        <div class="verified"><i class="fa-solid fa-badge-check"></i> Verified</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">{{ item.get_display_name }}</div>
+        <div class="meta">
+          <span class="price"><i class="fa-solid fa-tag"></i>
+            {% if item.price %}${{ item.price }}{% endif %}
+          </span>
+          <span><i class="fa-regular fa-clock"></i> Updated</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn-ghost" href="{{ item.get_absolute_url }}">Details</a>
+          <a class="btn-primary-glow" href="{{ item.get_absolute_url }}">View {{ item|class_name }}</a>
+        </div>
+      </div>
+    </article>
+  {% empty %}
+    <p>No listings found.</p>
+  {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+    </section>
+
+    <!-- Get in touch -->
+    <section id="contact" class="section">
+      <div class="contact reveal">
+        <h3>Get in touch</h3>
+        <p class="confidence">
+          Proud of the craft. Confident in delivery. If you want elegant engineering with a human touch,
+          reach out and let’s build something enduring.
+        </p>
+
+        <div class="socials">
+          <a class="social-btn" href="https://wa.me/{{ user_profile.phone_number }}" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <a class="social-btn" href="https://facebook.com/YourPage" target="_blank" rel="noopener">
+            <i class="fa-brands fa-facebook"></i> Facebook
+          </a>
+          <a class="social-btn" href="https://twitter.com/YourHandle" target="_blank" rel="noopener">
+            <i class="fa-brands fa-x-twitter"></i> Twitter
+          </a>
+          <a class="social-btn" href="tel:{{ user_profile.phone_number }}">
+            <i class="fa-solid fa-phone"></i> Call
+          </a>
+        </div>
+
+        <form class="mt-1" action="#" method="post">
+          <label for="email" class="visually-hidden">Email</label>
+          <div class="input-group custom">
+            <input id="email" name="email" type="email" class="form-control form-control-lg"
+                   placeholder="Enter your email" aria-label="Email address" required>
+            <button class="btn btn-lg" type="submit">
+              Subscribe
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="update" class="section">
+      <div class="container-fluid">
+        {% load widget_tweaks %}
+
+{% if request.user == profile_owner %}
+<form method="post" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  <h3 class="mb-3">Edit Account</h3>
+
+  <div class="row row-cols-1 row-cols-md-2 g-3">
+    <!-- Username -->
+    <div class="col">
+      <label for="{{ user_form.username.id_for_label }}" class="form-label">
+        <i class="bi bi-at"></i> {{ user_form.username.label }}
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-at"></i></span>
+        {% render_field user_form.username class="form-control ig-input" placeholder="Enter username" type="text" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="Your public handle — must be unique.">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in user_form.username.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
     </div>
+
+    <!-- Email -->
+    <div class="col">
+      <label for="{{ user_form.email.id_for_label }}" class="form-label">
+        <i class="bi bi-envelope"></i> {{ user_form.email.label }}
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-envelope"></i></span>
+        {% render_field user_form.email class="form-control ig-input" placeholder="Enter email address" type="email" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="We'll never share your email with anyone.">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in user_form.email.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <h3 class="mt-4 mb-3">Edit Profile</h3>
+
+  <div class="row g-3">
+    <!-- Image -->
+    <div class="col-12">
+      <label for="{{ profile_form.image.id_for_label }}" class="form-label">
+        <i class="bi bi-image"></i> image
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-image"></i></span>
+        {% render_field profile_form.image class="form-control is-valid" type="file" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="Upload a square image for best results (e.g., 300×300).">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in profile_form.image.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Role -->
+    <div class="col-12 col-md-6">
+      <label for="{{ profile_form.role.id_for_label }}" class="form-label">
+        <i class="bi bi-id-badge"></i> {{ profile_form.role.label }}
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-id-badge"></i></span>
+        {% render_field profile_form.role class="form-select ig-input is-valid" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="Choose your role — it affects what you can list and manage.">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in profile_form.role.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Phone -->
+    <div class="col-12 col-md-6">
+      <label for="{{ profile_form.phone_number.id_for_label }}" class="form-label">
+        <i class="bi bi-telephone"></i> {{ profile_form.phone_number.label }}
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-telephone"></i></span>
+        {% render_field profile_form.phone_number class="form-control ig-input is-valid" placeholder="+237 6XX XX XX XX" type="tel" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="Include country code (e.g., +237).">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in profile_form.phone_number.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Bio -->
+    <div class="col-12 col-md-10">
+      <label for="{{ profile_form.bio.id_for_label }}" class="form-label">
+        <i class="bi bi-pen"></i> {{ profile_form.bio.label }}
+      </label>
+      <div class="input-group">
+        <span class="input-group-text ig-left"><i class="bi bi-pen"></i></span>
+        {% render_field profile_form.bio class="form-control ig-input" rows="5" placeholder="Tell us a bit about yourself" %}
+        <span class="input-group-text ig-right"
+              data-bs-toggle="tooltip"
+              data-bs-placement="auto"
+              data-bs-custom-class="tt-wide"
+              title="A short description about you (max 2000 characters).">
+          <i class="bi bi-question-circle text-muted"></i>
+        </span>
+      </div>
+      {% for error in profile_form.bio.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Submit -->
+    <div class="col-12 col-md-2 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary rounded-pill w-100">
+        <i class="bi bi-arrow-repeat me-1"></i> Update Profile
+      </button>
+    </div>
+  </div>
+</form>
+{% endif %}
+
+
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    © <span id="year"></span> Galabe — Built with care and clarity.
+  </footer>
+
+  <!-- Minimal JS for animated words and reveal -->
+  <script>
+    // Animated words (slow fade/cycle)
+    (function(){
+      const root = document.querySelector('.animated-words');
+      if(!root) return;
+      const items = Array.from(root.querySelectorAll('span'));
+      let i = 0;
+      setInterval(()=>{
+        items[i].classList.remove('active');
+        i = (i + 1) % items.length;
+        items[i].classList.add('active');
+      }, 2600);
+    })();
+
+    // Reveal on scroll
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('show');
+            io.unobserve(e.target);
+          }
+        });
+      }, {threshold: .12});
+      els.forEach(el=>io.observe(el));
+    })();
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Bootstrap JS (optional if you don't need dropdowns/tooltips) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    <script>
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
 
 </body>
 </html>

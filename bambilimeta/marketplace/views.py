@@ -41,7 +41,7 @@ class ProductListView(ListView):
     A view to list all products.
     """
     model = Product
-    template_name = "marketplace/wlcm.html"
+    template_name = "marketplace/product_list.html"
     context_object_name = "products"
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -64,4 +64,4 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     context_object_name = "product"
-    template_name = "marketplace/index.html"
+    template_name = "marketplace/product_detail.html"

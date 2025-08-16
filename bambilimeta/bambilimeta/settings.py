@@ -199,7 +199,7 @@ INTERNAL_IPS = [
 # file handler logs warning & errors to logs/django.logs
 
 LOGIN_URL = "auth:login"
-LOGIN_REDIRECT_URL = 'auth:profile'
+LOGIN_REDIRECT_URL = 'housing:house-list'
 
 CACHES = {
     "default": {
