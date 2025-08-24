@@ -4,14 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Redesign a ready and elegant page front end for the housing app.&#10;Create mixins for messages.&#10;Added a Favorite model for favoriting.&#10;Use annotate to filter houses before redering , to check for favorites.&#10;Added cache, to cache frequent pages, via an automatic signal which fires upon creating, updating or deleting a house object.&#10;A Favorites list view for listing favorites of a particular user.&#10;A Favorite function to toggle the favorite button via javaScript. &#10;The housing section preliminary functions are mostly done.">
+    <list default="true" id="6dbf6b01-5e96-44c5-9b9a-af6b40bc10bd" name="Changes" comment="Redesign a ready and elegant page front end for the users app.&#10;Adjust each page individually for beautiful UI &#10;Detailed docstrings for full explanation&#10;Refactored my views from using manual render to using render response&#10;Added a custom login for more control.">
+      <change afterPath="$PROJECT_DIR$/MIGRATION_NOTES_2.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/backup.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/housing/migrations/0012_alter_house_owner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/migrations/0013_house_address_house_available_from_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/migrations/0014_populate_new_house_fields.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/migrations/0015_alter_house_address_alter_house_house_desc_and_more.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/housing/static/housing/css/detail.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/housing/static/housing/js/detail.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/gallery.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_edit.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_gallery.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_image_edit.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/0006_alter_product_seller.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/0008_product_category_product_condition_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/0009_populate_product_fields.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/migrations/0010_alter_product_category_alter_product_description_and_more.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/static/marketplace/css/detail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_details_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/marketplace/tests/test_views.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/img1.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/img1_8R6UbHE.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/img1_YTusUXY.jpg" afterDir="false" />
@@ -25,46 +37,95 @@
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-10_18-09-22.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-10_18-09-22_UGsFd8x.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-10_18-09-23_2_Hthahef.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_15-34-59_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_15-35-00.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-24-04.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-24-04_XIz3WMd.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-24-23.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-24-35_X0qjPgL.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-24-48_9msG49y.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-25-06_bg6BNJe.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-25-11_U0OZ37n.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_images/photo_2025-08-16_18-25-21_uTdbyUl.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_videos/aaaaaa_BPAYIgJ.mp4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_videos/aaaaaa_lwvEEFf.mp4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/house_videos/aaaaaa_zsN3fzp.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/bbl2_6Pwmp9d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/bbl2_zZutWER.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/bbl3_OiTk5kl.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/img1_k2mGETX.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/img3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/img3_dakVRx2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/img3_fACwGFW.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-10_18-09-22_cBQcojE.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-10_18-09-22_n9lYOgH.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-33-19.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-33-19_2_fvGyZDg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-33-19_3_Maa4FDV.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-33-19_3_yPNSUSj.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-33-23_SST7SHi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-34-56.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_15-35-04_icYDz8A.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-24-48_FzmJ39n.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-24-48_tqy85E4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_3aSRgJa.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_4Siwyng.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_K1YDf3D.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_YPFc6Xi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_fpDCfOV.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-06_hiF5EaP.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-11.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-11_WI2dNfu.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-15_ltHIcUf.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-15_rf4HKKL.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bambilimeta/media/product_images/photo_2025-08-16_18-25-21_t5m8Nop.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/profile_pics/AFPA-Master-Nutrition-Certification-403x403.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/media/profile_pics/img2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/NOTES.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/static/users/css/profile.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/static/users/css/profiles.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/_form_field.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/base_navbar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/logout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/profile_form.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bambilimeta/users/templatetags/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bambilimeta/users/templatetags/custom_filters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MISTAKES.md" beforeDir="false" afterPath="$PROJECT_DIR$/MISTAKES.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/bambilimeta/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/NOTES.md" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/NOTES.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/mixins.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/static/housing/css/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/static/housing/css/navbar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/favorite_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/favorite_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_1.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_detail_2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/house_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/review_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/templates/housing/review_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/housing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/housing/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/crit_error.md" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/crit_error.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/base4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/elements.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/elements2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/generic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/generic2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/index1.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/templates/marketplace/product_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/marketplace/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/marketplace/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/users/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/users/templates/users/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/users/templates/users/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/users/templates/users/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/templates/users/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bambilimeta/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bambilimeta/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bambilimeta/users/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/learn.py" beforeDir="false" afterPath="$PROJECT_DIR$/learn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/points.md" beforeDir="false" afterPath="$PROJECT_DIR$/points.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,21 +192,21 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python tests.Python tests for test_models.ProductModelTest.executor": "Run",
-    "Python.learn.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Galabe-PC/PycharmProjects/BambiliMeta",
-    "settings.editor.selected.configurable": "settings.sync"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python tests.Python tests for test_models.ProductModelTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.learn.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Galabe-PC/PycharmProjects/BambiliMeta&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.codeium.AppSettingsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Galabe-PC\PycharmProjects\BambiliMeta\bambilimeta\housing\static\housing" />
@@ -183,7 +244,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515" />
+        <option value="bundled-python-sdk-337b0a7a993a-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.19416.19" />
       </set>
     </attachedChunks>
   </component>
@@ -228,7 +289,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754939461887</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Redesign a ready and elegant page front end for the users app.&#10;Adjust each page individually for beautiful UI &#10;Detailed docstrings for full explanation&#10;Refactored my views from using manual render to using render response&#10;Added a custom login for more control.">
+      <option name="closed" value="true" />
+      <created>1755334464183</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1755334464184</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -237,30 +306,21 @@
     <MESSAGE value="Design a prototype navbar for the housing site homepage." />
     <MESSAGE value="Created and designed the users app for managing users.&#10;Uses templates from HTML 5 UP to speed design and focus on django.&#10;Use django's widget_tweaks, for clean form inheritance.&#10;use django signals to create user profile, after a user registers." />
     <MESSAGE value="Redesign a ready and elegant page front end for the housing app.&#10;Create mixins for messages.&#10;Added a Favorite model for favoriting.&#10;Use annotate to filter houses before redering , to check for favorites.&#10;Added cache, to cache frequent pages, via an automatic signal which fires upon creating, updating or deleting a house object.&#10;A Favorites list view for listing favorites of a particular user.&#10;A Favorite function to toggle the favorite button via javaScript. &#10;The housing section preliminary functions are mostly done." />
-    <option name="LAST_COMMIT_MESSAGE" value="Redesign a ready and elegant page front end for the housing app.&#10;Create mixins for messages.&#10;Added a Favorite model for favoriting.&#10;Use annotate to filter houses before redering , to check for favorites.&#10;Added cache, to cache frequent pages, via an automatic signal which fires upon creating, updating or deleting a house object.&#10;A Favorites list view for listing favorites of a particular user.&#10;A Favorite function to toggle the favorite button via javaScript. &#10;The housing section preliminary functions are mostly done." />
+    <MESSAGE value="Redesign a ready and elegant page front end for the users app.&#10;Adjust each page individually for beautiful UI &#10;Detailed docstrings for full explanation&#10;Refactored my views from using manual render to using render response&#10;Added a custom login for more control." />
+    <option name="LAST_COMMIT_MESSAGE" value="Redesign a ready and elegant page front end for the users app.&#10;Adjust each page individually for beautiful UI &#10;Detailed docstrings for full explanation&#10;Refactored my views from using manual render to using render response&#10;Added a custom login for more control." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bambilimeta/housing/views.py</url>
-          <line>119</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bambilimeta/users/views.py</url>
-          <line>32</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bambilimeta/housing/views.py</url>
-          <line>220</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/learn.py</url>
           <line>97</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/bambilimeta/marketplace/views.py</url>
+          <line>265</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

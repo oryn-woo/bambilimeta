@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "widget_tweaks",
     "django.contrib.humanize",  # Built into django, provides humanize filters like natural time, etc.
+    "heroapp.apps.HeroappConfig",
 ]
 
 MIDDLEWARE = [

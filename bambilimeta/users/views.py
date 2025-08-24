@@ -7,7 +7,7 @@ from housing.models import House, Favorite
 from .models import Profile
 from django.db.models import Prefetch, Exists, OuterRef
 from itertools import chain
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.safestring import mark_safe
 from django.urls import reverse_lazy
@@ -69,38 +69,113 @@ from django.urls import reverse_lazy
 #     }
 #     return render(request, "users/profile.html", context)
 
-class SmartFromSuccessMixin:
+# class SmartFromSuccessMixin:
+#     """
+#     A reusable mixin for django form views that
+#     - Saves the form and returns the redirect response.
+#     - Adds customizable success messages
+#     - supports dynamic redirect URLs via get_success_url()
+#     - Allows injection of rich HTML links via get_success_link()
+#     """
+#     success_message = None  # Plain  success message
+#     success_links = []  # List of (label, url_name) tuple
+
+#     def form_valid(self, form):
+#         # Save the form and get the redirect response
+#         response = super().form_valid(form)
+#         # Add succes message if defined.
+#         if self.success_message:
+#             messages.success(self.request, self.success_message)
+
+#         # Add additional info message with links
+#         for label, url_name in self.get_success_links():
+#             try:
+#                 url = reverse_lazy(url_name)
+#                 html = f"<a href='{url}' class='btn btn-sm btn-primary'>{label}</a>"
+#                 messages.success(self.request, mark_safe(html))
+#             except Exception as e:
+#                 messages.warning(self.request, f"Could not generate link for {label}, : {e}")
+#         return response
+#     def get_success_links(self):
+#         """
+#         Override this to return a list of (label, url_name)
+#         Example: [('Go to Dashboard', 'dashboard'), ('View Profile')
+#         :return: List of links
+#         """
+#         return self.success_links
+
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
+
+
+class SmartFormSuccessMixin:
     """
-    A reusable mixin for django form views that
-    - Saves the form and returns the redirect response.
-    - Adds customizable success messages
-    - supports dynamic redirect URLs via get_success_url()
-    - Allows injection of rich HTML links via get_success_link()
+    A reusable mixin for Django form views that:
+    - Handles saving/login and redirects via form_valid().
+    - Adds customizable success messages.
+    - Supports dynamic redirect URLs via get_success_url().
+    - Allows injection of rich HTML links via get_success_links().
+    - Optionally supports 'remember me' session expiry control.
+    - Provides a safe form_invalid() handler.
     """
-    success_message = None  # Plain  success message
-    success_links = []  # List of (label, url_name) tuple
+
+    success_message = None         # Plain success message
+    success_links = []             # List of (label, url_name) tuples
+    remember_me_field = "remember" # Name of the remember-me checkbox input
 
     def form_valid(self, form):
-        # Save the form and get the redirect response
+        """
+        Called when the submitted form is valid.
+        Runs parent logic (saves/login), then adds messages & remember-me handling.
+        """
+        # Let parent handle saving / login
         response = super().form_valid(form)
-        # Add succes message if defined.
+
+        # ✅ Handle 'Remember Me'
+        self.apply_remember_me()
+
+        # ✅ Add success message if defined
         if self.success_message:
             messages.success(self.request, self.success_message)
 
-        # Add additional info message with links
+        # ✅ Add additional info messages with links
         for label, url_name in self.get_success_links():
             try:
                 url = reverse_lazy(url_name)
                 html = f"<a href='{url}' class='btn btn-sm btn-primary'>{label}</a>"
-                messages.success(self.request, mark_safe(html))
+                messages.info(self.request, mark_safe(html))
             except Exception as e:
-                messages.warning(self.request, f"Could not generate link for {label}, : {e}")
-            return response
+                messages.warning(self.request, f"Could not generate link for {label}: {e}")
+
+        return response
+
+    def form_invalid(self, form):
+        """
+        Called when the submitted form is invalid.
+        Ensures the form + errors are rendered properly.
+        """
+        return self.render_to_response(self.get_context_data(form=form))
+
+    
+    # 🔹 Utility custom methods
+
+    def apply_remember_me(self):
+        """
+        Handles session expiry if a 'remember me' field is posted.
+        Default: 2 weeks if checked, else expire on browser close.
+        """
+        if self.remember_me_field in self.request.POST:
+            remember = self.request.POST.get(self.remember_me_field)
+            if remember:
+                self.request.session.set_expiry(1209600)  # 2 weeks
+            else:
+                self.request.session.set_expiry(0)        # Browser close
+
     def get_success_links(self):
         """
-        Override this to return a list of (label, url_name)
-        Example: [('Go to Dashboard', 'dashboard'), ('View Profile')
-        :return: List of links
+        Override this to return a list of (label, url_name).
+        Example: [('Go to Dashboard', 'dashboard'), ('View Profile', 'profile')]
         """
         return self.success_links
 
@@ -148,9 +223,9 @@ class RegisterView(FormView):
          it's the actual redirect response that django sends to the browser
          django expects a valid HTTP response from our view method.
         """
-        response = super().form_valid(form)
+        self.object = form.save()
         messages.success(self.request, "Account created successful")
-        return response
+        return super().form_valid(form)
 
     def get_success_url(self):
         """
@@ -276,42 +351,68 @@ class ProfileView(DetailView):
         return context
 
 
-class CustomLoginView(SuccessMessageMixin, LoginView):
+class CustomLoginView(SmartFormSuccessMixin, LoginView):
     """
     Override to gain some control over functioning
+    When i first inherit from my mixin, django builds a MRO (method resolution order. a chain django uses to look up methods and attributes)
+    More pricise MRO oder here is 
+    [CustomLoginView --> SmartFormSuccessMixin --> LoginView --> Base Classes --> object]
+     > When django calls form_valid python first check CustomLoginView has the method if not, it moves to SmartFormSuccessMixin.
+     > But inside we called super().form_valid() so python jumps to the next class in the MRO, which is LoginView.form_valid 
+    So if in this view i provide a success_message, my Mixins default will be overriden
     """
     template_name = "users/login.html"
-    success_url = "/"
+    success_url = reverse_lazy("market:products")
+    success_message = "Welcome to Bambili Housing & E-commerce!"
 
-    def form_valid(self, form):
-        # This method is called after a successful login
-        # A this stage the user is not yet login into the request object,
-        # so we call the parent method first to perform the login
-        response = super().form_valid(form)
-        # Now the user is logged in and available via self.request.user.
-        # Now we can access their user name and render a proper response
+    def get_success_links(self):
+        # return super().get_success_links()
+        return [
+            ("visit Market", "market:products"),
+            ("Visit Houses", "housing:house-list"),
+        ]
 
-        # handle remeber me
-        remember_me = self.request.POST.get("remember", None)
-        if remember_me:
-            # Persitent 2 weeks.
-            self.request.session.set_expiry(1209600)
-        else:
-            # session expires when browser closses.
-            self.request.session.set_expiry(0)
+    # def form_valid(self, form):
+    #     # This method is called after a successful login
+    #     # A this stage the user is not yet login into the request object,
+    #     # so we call the parent method first to perform the login
+    #     response = super().form_valid(form)
+    #     # Now the user is logged in and available via self.request.user.
+    #     # Now we can access their user name and render a proper response
 
-        market_url = reverse("market:products")
-        house_url = reverse("housing:house-list")
-        market_link = f"Visit our houses <a href='{market_url}' class='btn btn-primary btn-sm'>market</a>"
-        house_link = f"Visit our houses <a href='{house_url}' class='btn btn-primary btn-sm'>Houses</a>"
+    #     # handle remeber me
+    #     remember_me = self.request.POST.get("remember", None)
+    #     if remember_me:
+    #         # Persitent 2 weeks.
+    #         self.request.session.set_expiry(1209600)
+    #     else:
+    #         # session expires when browser closses.
+    #         self.request.session.set_expiry(0)
 
-        messages.success(self.request, f"Welcome {self.request.user.username} to bambili housing and eCommerce.")
-        messages.info(self.request, message=mark_safe(market_link))
-        messages.info(self.request, message=mark_safe(house_link))
+    #     market_url = reverse("market:products")
+    #     house_url = reverse("housing:house-list")
+    #     market_link = f"Visit our houses <a href='{market_url}' class='btn btn-primary btn-sm'>market</a>"
+    #     house_link = f"Visit our houses <a href='{house_url}' class='btn btn-primary btn-sm'>Houses</a>"
+
+    #     messages.success(self.request, f"Welcome {self.request.user.username} to bambili housing and eCommerce.")
+    #     messages.info(self.request, message=mark_safe(market_link))
+    #     messages.info(self.request, message=mark_safe(house_link))
 
 
-        # Return the response from the parent object usually a redirect.
-        return response
+    #     # Return the response from the parent object usually a redirect.
+    #     return response
+
+    # def form_invalid(self, form):
+    #     return self.render_to_response(self.get_context_data(form=form))
+
+
+
+
+
+
+
+
+
 # class ProfileView(DetailView):
 #     model = Profile
 #     template_name = "users/profile.html"

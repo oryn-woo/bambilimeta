@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Gallery styles -->
+  <link rel="stylesheet" href="gallery.css" />
+  <style>
+    /* gallery.css */
+:root{
+  --accent-pink: #ff6ea9;      /* elegant pink outline */
+  --gold: #f3c623;             /* eye-catching gold */
+  --thumb-size: 82px;          /* base thumbnail size */
+  --thumb-gap: 14px;           /* spacing around thumbs */
+  --radius-lg: 16px;
+  --radius-sm: 10px;
+}
+
+/* Layout */
+.gallery-grid{
+  display: grid;
+  grid-template-columns: 1fr;      /* mobile-first */
+  gap: 16px;
+  align-items: start;
+}
+
+/* On large screens: vertical rail (20%) + carousel (80%) */
+@media (min-width: 992px){
+  .gallery-grid{
+    grid-template-columns: minmax(120px, 20%) 1fr;
+    gap: 24px;
+  }
+}
+
+/* Carousel wrapper with rounded corners, padding, pink outline */
+.carousel-wrap{
+  border: 2px solid var(--accent-pink);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  background: #fff;
+  position: relative;
+}
+
+/* Keep a consistent aspect ratio for a steady layout */
+.carousel .carousel-inner{
+  aspect-ratio: 16 / 9;
+  border-radius: calc(var(--radius-lg) - 4px);
+  overflow: hidden;
+}
+.carousel .carousel-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Carousel indicators tweak for visibility */
+.carousel-indicators [data-bs-target]{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.carousel-indicators .active{
+  background-color: var(--gold);
+}
+
+/* Circular gold-outline controls */
+.carousel-control-prev,
+.carousel-control-next{
+  width: 48px;
+  height: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+.carousel-control-prev{ left: 10px; }
+.carousel-control-next{ right: 10px; }
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover{
+  background: var(--gold);
+  box-shadow: 0 6px 18px rgba(243,198,35,0.35);
+}
+
+/* Recolor icons on hover by flipping to dark icon on gold bg */
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  filter: invert(0) brightness(0); /* dark icons on light background */
+}
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon{
+  filter: invert(1); /* white icons on gold background */
+}
+
+/* Thumbnails (shared styles) */
+.thumbs-vertical,
+.thumbs-horizontal{
+  display: flex;
+  gap: var(--thumb-gap);
+}
+.thumbs-vertical{
+  flex-direction: column;              /* vertical stack on lg+ */
+}
+@media (max-width: 991.98px){
+  .thumbs-vertical{ display: none; }   /* hide vertical on mobile */
+}
+
+/* Horizontal area always exists; mobile shows all; lg+ shows overflow */
+.thumbs-horizontal{
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Thumb chip */
+.thumb{
+  display: inline-block;
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent-pink);
+  outline-offset: 0;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  transition: transform .15s ease, box-shadow .2s ease, outline-color .2s ease;
+}
+.thumb img{
+  display: block;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Hover focus states */
+.thumb:hover{
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+.thumb:focus-visible{
+  outline: 3px solid var(--gold);
+}
+
+/* Active/highlighted thumb */
+.thumb.active{
+  outline-color: var(--gold);
+  box-shadow: 0 8px 22px rgba(243,198,35,0.35);
+}
+
+/* Jello/bubble click animation */
+@keyframes jello{
+  0%   { transform: scale(1) }
+  15%  { transform: scale(0.95, 1.05) }
+  30%  { transform: scale(1.05, 0.95) }
+  45%  { transform: scale(0.98, 1.02) }
+  60%  { transform: scale(1.02, 0.98) }
+  75%  { transform: scale(0.99, 1.01) }
+  100% { transform: scale(1) }
+}
+.thumb.jello{
+  animation: jello 450ms ease;
+}
+
+/* Make sure overflow area looks airy */
+.thumbs-horizontal .thumb{
+  margin-bottom: 4px;
+}
+  </style>
+</head>
+<body>
+
+
+<!-- Video section (move above or below .gallery-grid as you prefer) -->
+
+
+
+  <main class="container py-4 gallery">
+    <!-- Grid: mobile-first (1 column). On lg: sidebar thumbnails + carousel. -->
+    <section class="gallery-grid">
+      <!-- Vertical thumbnails (visible on lg+) -->
+      <aside class="thumbs-vertical" aria-label="Vertical thumbnails">
+        <!-- Thumbnails: add/remove as needed; JS will manage overflow -->
+        <a href="#" class="thumb" data-slide="0">
+          <img src="https://picsum.photos/seed/house1/800/600" alt="House 1" />
+        </a>
+        <a href="#" class="thumb" data-slide="1">
+          <img src="https://picsum.photos/seed/house2/800/600" alt="House 2" />
+        </a>
+        <a href="#" class="thumb" data-slide="2">
+          <img src="https://picsum.photos/seed/house3/800/600" alt="House 3" />
+        </a>
+        <a href="#" class="thumb" data-slide="3">
+          <img src="https://picsum.photos/seed/house4/800/600" alt="House 4" />
+        </a>
+        <a href="#" class="thumb" data-slide="4">
+          <img src="https://picsum.photos/seed/house5/800/600" alt="House 5" />
+        </a>
+        <a href="#" class="thumb" data-slide="5">
+          <img src="https://picsum.photos/seed/house6/800/600" alt="House 6" />
+        </a>
+        <a href="#" class="thumb" data-slide="6">
+          <img src="https://picsum.photos/seed/house7/800/600" alt="House 7" />
+        </a>
+        <a href="#" class="thumb" data-slide="7">
+          <img src="https://picsum.photos/seed/house8/800/600" alt="House 8" />
+        </a>
+      </aside>
+
+      <!-- Carousel (pink outline, rounded, padded) -->
+      <section class="carousel-wrap">
+        <div id="galleryCarousel" class="carousel slide" data-bs-ride="false" aria-label="Gallery carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+            <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+          </div>
+
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="https://picsum.photos/seed/house1/1280/720" class="d-block w-100" alt="House 1 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house2/1280/720" class="d-block w-100" alt="House 2 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house3/1280/720" class="d-block w-100" alt="House 3 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house4/1280/720" class="d-block w-100" alt="House 4 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house5/1280/720" class="d-block w-100" alt="House 5 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house6/1280/720" class="d-block w-100" alt="House 6 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house7/1280/720" class="d-block w-100" alt="House 7 large" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/seed/house8/1280/720" class="d-block w-100" alt="House 8 large" />
+            </div>
+          </div>
+
+          <!-- Circular gold-outline controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev" aria-label="Previous">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next" aria-label="Next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <!-- Horizontal thumbnails (always present; visible on mobile, used for overflow on lg+) -->
+    <section class="thumbs-horizontal" aria-label="Horizontal thumbnails"></section>
+  </main>
+
+
+
+<section class="media-video" id="propertyVideo" aria-label="Property videos">
+  <!-- Featured player -->
+  <div class="video-player" data-active-type="mp4">
+    <!-- Example single MP4 (swap to YouTube by replacing this block; see below) -->
+    <video class="video-el" controls playsinline preload="metadata" poster="https://picsum.photos/seed/poster1/1280/720">
+      <source src="https://cdn.example.com/videos/house-tour-1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Thumbs: include only if you have 2–3 videos -->
+  <div class="video-thumbs" role="tablist" aria-label="Video choices">
+    <!-- MP4 example -->
+    <a href="#" class="thumb thumb-video active" role="tab" aria-selected="true"
+       data-type="mp4"
+       data-src="https://cdn.example.com/videos/house-tour-1.mp4"
+       data-poster="https://picsum.photos/seed/poster1/640/360">
+      <img src="https://picsum.photos/seed/poster1/200/120" alt="Main tour" />
+      <span class="play-badge" aria-hidden="true">▶</span>
+    </a>
+
+    <!-- YouTube example -->
+    <a href="#" class="thumb thumb-video" role="tab" aria-selected="false" data-type="youtube" data-id="dQw4w9WgXcQ" > <!-- replace with your real YouTube ID -->data-poster="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg">
+      <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Walkthrough" />
+      <span class="play-badge" aria-hidden="true">▶</span>
+    </a>
+    <!-- Vimeo example -->
+    <a href="#" class="thumb thumb-video" role="tab" aria-selected="false"
+       data-type="vimeo"
+       data-id="76979871"
+       data-poster="https://picsum.photos/seed/poster3/640/360">
+      <img src="https://picsum.photos/seed/poster3/200/120" alt="Neighborhood" />
+      <span class="play-badge" aria-hidden="true">▶</span>
+    </a>
+  </div>
+</section>
+
+
+
+  <!-- Bootstrap 5 JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Gallery script -->
+  <script src="gallery.js"></script>
+  <script>
+    // gallery.js
+document.addEventListener('DOMContentLoaded', () => {
+  const carouselEl = document.getElementById('galleryCarousel');
+  const carousel = new bootstrap.Carousel(carouselEl, { interval: false, ride: false, touch: true });
+
+  const vertical = document.querySelector('.thumbs-vertical');
+  const horizontal = document.querySelector('.thumbs-horizontal');
+
+  // Move overflowing vertical thumbnails to the horizontal area on lg+.
+  function layoutThumbnails() {
+    const isLarge = window.matchMedia('(min-width: 992px)').matches;
+
+    // Reset: put all thumbs back into vertical first (DOM order preserved)
+    const allThumbs = horizontal.querySelectorAll('.thumb');
+    allThumbs.forEach(t => vertical.appendChild(t));
+
+    if (!isLarge) {
+      // Mobile: show all thumbnails horizontally, none vertical
+      const thumbs = vertical.querySelectorAll('.thumb');
+      thumbs.forEach(t => horizontal.appendChild(t));
+      return;
+    }
+
+    // Large screens: compute how many fit vertically within the carousel height
+    // Use the carousel-inner’s rendered height as reference
+    const carouselInner = carouselEl.querySelector('.carousel-inner');
+    const available = carouselInner.getBoundingClientRect().height;
+
+    let used = 0;
+    const thumbs = Array.from(vertical.querySelectorAll('.thumb'));
+    const overflow = [];
+
+    thumbs.forEach((thumb) => {
+      const rect = thumb.getBoundingClientRect();
+      // Include vertical margins by reading computed style
+      const styles = window.getComputedStyle(thumb);
+      const mt = parseFloat(styles.marginTop) || 0;
+      const mb = parseFloat(styles.marginBottom) || 0;
+      const total = rect.height + mt + mb + parseFloat(getComputedStyle(vertical).rowGap || 0);
+
+      if (used + total <= available) {
+        used += total;
+      } else {
+        overflow.push(thumb);
+      }
+    });
+
+    // Move overflow to horizontal wrap
+    overflow.forEach(t => horizontal.appendChild(t));
+  }
+
+  // Click handling via event delegation (both containers)
+  function onThumbClick(e) {
+    const anchor = e.target.closest('.thumb');
+    if (!anchor) return;
+    e.preventDefault();
+
+    // Jello animation
+    anchor.classList.remove('jello'); // restart if already animating
+    void anchor.offsetWidth;          // reflow to reset animation
+    anchor.classList.add('jello');
+
+    // Go to slide
+    const idx = parseInt(anchor.getAttribute('data-slide'), 10);
+    if (!Number.isNaN(idx)) carousel.to(idx);
+
+    // Highlight
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    anchor.classList.add('active');
+  }
+
+  vertical.addEventListener('click', onThumbClick);
+  horizontal.addEventListener('click', onThumbClick);
+
+  // Sync active thumbnail when carousel changes (keyboard/controls/swipe)
+  carouselEl.addEventListener('slid.bs.carousel', (ev) => {
+    const index = ev.to;
+    document.querySelectorAll('.thumb').forEach(t => {
+      t.classList.toggle('active', parseInt(t.getAttribute('data-slide'), 10) === index);
+    });
+  });
+
+  // Initial highlight
+  const firstThumb = document.querySelector('.thumb[data-slide="0"]');
+  if (firstThumb) firstThumb.classList.add('active');
+
+  // Layout calculations: after images load and on resize
+  function debounce(fn, ms=150){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+  const relayout = debounce(layoutThumbnails, 60);
+
+  // Recalculate after images settle
+  const imgs = carouselEl.querySelectorAll('img');
+  let pending = imgs.length;
+  imgs.forEach(img => {
+    if (img.complete) { pending--; if (pending === 0) relayout(); }
+    else img.addEventListener('load', () => { pending--; if (pending === 0) relayout(); });
+  });
+  if (pending === 0) relayout();
+
+  window.addEventListener('resize', relayout);
+});
+  </script>
+
+<script>
+  // ----- Video section logic -----
+(function(){
+  const section = document.querySelector('.media-video');
+  if (!section) return;
+
+  const playerWrap = section.querySelector('.video-player');
+  const thumbs = Array.from(section.querySelectorAll('.thumb-video'));
+
+  // Helper: build player for different sources
+  function renderPlayerFromThumb(thumb, autoplay = true){
+    const type = thumb.dataset.type;
+    const poster = thumb.dataset.poster || '';
+
+    // Clear previous content
+    playerWrap.innerHTML = '';
+
+    if (type === 'mp4') {
+      const src = thumb.dataset.src;
+      const video = document.createElement('video');
+      video.className = 'video-el';
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      if (poster) video.poster = poster;
+
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+
+      playerWrap.appendChild(video);
+      if (autoplay) {
+        // attempt play; browsers may block without user gesture, which is fine
+        video.play?.();
+      }
+      playerWrap.dataset.activeType = 'mp4';
+    }
+
+    if (type === 'youtube') {
+      const id = thumb.dataset.id;
+      const iframe = document.createElement('iframe');
+      iframe.width = '560';
+      iframe.height = '315';
+      iframe.src = `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1${autoplay ? '&autoplay=1' : ''}`;
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      playerWrap.appendChild(iframe);
+      playerWrap.dataset.activeType = 'youtube';
+    }
+
+    if (type === 'vimeo') {
+      const id = thumb.dataset.id;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0${autoplay ? '&autoplay=1' : ''}`;
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.allowFullscreen = true;
+      playerWrap.appendChild(iframe);
+      playerWrap.dataset.activeType = 'vimeo';
+    }
+  }
+
+  function handleThumbClick(e){
+    const a = e.target.closest('.thumb-video');
+    if (!a) return;
+
+    e.preventDefault();
+
+    // Jello
+    a.classList.remove('jello');
+    void a.offsetWidth;
+    a.classList.add('jello');
+
+    // Highlight
+    thumbs.forEach(t => {
+      t.classList.toggle('active', t === a);
+      t.setAttribute('aria-selected', t === a ? 'true' : 'false');
+    });
+
+    renderPlayerFromThumb(a, true);
+  }
+
+  if (thumbs.length > 0) {
+    // Ensure the first thumb represents the current player
+    thumbs[0].classList.add('active');
+    thumbs[0].setAttribute('aria-selected', 'true');
+
+    // If your initial markup used a different video in the player,
+    // you can sync it by calling renderPlayerFromThumb(thumbs[0], false);
+
+    section.addEventListener('click', handleThumbClick);
+  }
+})();
+</script>
+</body>
+</html>

@@ -16,3 +16,13 @@
         </form>
     </div>
 {% endblock body %}
+
+{% load cache %}
+
+{% cache 900 hero_homes_fragment %}
+<div class="row g-4">
+  {% for house in hero_homes %}
+    <!-- your hero house card markup -->
+  {% endfor %}
+</div>
+{% endcache %}

@@ -1,24 +1,217 @@
 {% extends 'housing/base.html' %}
-{#{% load crispy_forms_tags %}#}
-{% block body %}
-    <div class="content-section">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">
-                    Upload A home
-                </legend>
-                {{ form.as_p}}
-                <h4>Upload Images</h4>
-                {{ formset.management_form }}
-                {% for form in formset %}
-                    {{ form.as_p }}
+{% load static %}
+{% load widget_tweaks %}
+{% block style %}
+.upload-form .form-control {
+  background-color: #fff;   /* Preserve your own form color */
+  border-color: #ced4da;
+}
 
-                {% endfor %}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">upload</button>
+.preview-img {
+  max-height: 180px;
+  object-fit: cover;
+  margin-bottom: .5rem;
+}
+
+.btn-upload {
+  transition: background-color .3s ease, transform .2s ease;
+}
+
+.btn-upload:hover {
+  background-color: #0056b3;
+  transform: scale(1.03);
+}
+
+{% endblock %}
+{% block body %}
+
+<div class="content-section upload-form p-4 bg-light rounded text-dark">
+    {% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+      <fieldset class="mb-4">
+        <legend class="h4 border-bottom pb-2 fw-bold text-dark ">Upload Your House</legend>
+
+      {% if messages %}
+        <div class="container-fluid mt-3 my-2 mb-2">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        <ul>
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+      <div class="row">
+
+        <!-- Title -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="b i bi-card-text"></i>
+            </span>
+            {{ form.title }}
+            
+            <span
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              title="{{ form.title.help_text|default:'' }}">
+              <i class="bi bi-question-circle"></i>
+            </span>
+          </div>
+          {% if form.title.errors %}
+            <div class="text-danger small mt-1 ">
+                {{ form.title.errors}}
             </div>
-        </form>
+          {% endif %}
+        </div>
+
+        <!-- Location -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="{{ form.location.id_for_label }}" class="form-label">{{ form.location.label }}</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-geo-alt"></i>
+            </span>
+            {{ form.location }}
+            <span
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              title="{{ form.location.help_text|default:'' }}">
+              <i class="bi bi-question-circle"></i>
+            </span>
+          </div>
+          {% if form.location.errors %}
+          <div class="text-danger small mt-1 ">
+              {{ form.location.errors}}
+          </div>
+        {% endif %}
+        </div>
+
+        <!-- Price -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="{{ form.price.id_for_label }}" class="form-label">{{ form.price.label }}</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-currency-dollar"></i>
+            </span>
+            {{ form.price }}
+            <span
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              title="{{ form.price.help_text|default:'' }}">
+              <i class="bi bi-question-circle"></i>
+            </span>
+          </div> 
+          {% if form.price.errors %}
+            <div class="text-danger small mt-1 ">
+                {{ form.price.errors}}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Video -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="{{ form.video.id_for_label }}" class="form-label">{{ form.video.label }}</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-camera-video"></i>
+            </span>
+            {{ form.video }}
+            <span
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              title="{{ form.video.help_text|default:'' }}">
+              <i class="bi bi-question-circle"></i>
+            </span>
+          </div>
+          {% if form.video.errors %}
+            <div class="text-danger small mt-1 ">
+                {{ form.video.errors}}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Description (full width) -->
+        <div class="col-12 mb-3">
+          <label for="{{ form.house_desc.id_for_label }}" class="form-label">{{ form.house_desc.label }}</label>
+          {{ form.house_desc }}
+          {% if form.house_desc.help_text %}
+            <small class="form-text text-muted">{{ form.house_desc.help_text }}</small>
+          {% endif %}
+
+          {% if form.house_desc.errors %}
+            <div class="text-danger small mt-1 ">
+                {{ form.house_desc.errors}}
+            </div>
+          {% endif %}
+        </div>
+
+      </div><!-- /.row -->
+
+      <!-- Image Upload Thumbnails -->
+      <h5 class="mt-4">Upload Images</h5>
+      {{ formset.management_form }}
+
+      <div class="row">
+        {% for img_form in formset %}
+          <div class="col-6 col-md-4 mb-4 text-center">
+            <div class="thumbnail">
+             
+                {% if img_form.instance.image and img_form.instance.image.name %}
+                    <img src="{{ img_form.instance.image.url }}" class="img-thumbnail preview-img" id="preview-{{ forloop.counter }}" alt="Preview">
+                {% else %}
+                    <img src="{% static 'housing/images/icon.png' %}" class="img-thumbnail preview-img" id="preview-{{ forloop.counter }}" alt="Placeholder">
+                {% endif %}
+
+            </div>
+
+            {{ img_form.image }}
+
+            {% if img_form.DELETE %}
+                <div class='form-check-label mt-2'>
+                    {{ img_form.DELETE }}
+                    <label for=" {{ img_form.DELETE.id_for_label }} " class="form-check-label text-danger">
+                        Delete this image
+                    </label>
+                </div>
+            
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </fieldset>
+
+    <div class="form-group text-end">
+      <button type="submit" class="btn btn-primary btn-upload px-4 py-2">
+        <i class="bi bi-cloud-arrow-up me-2"></i>Upload
+      </button>
     </div>
-{% endblock body %}
+
+  </form>
+</div>
+
+{% endblock %}

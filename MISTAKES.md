@@ -62,3 +62,7 @@ if "test" in sys.argv or "PYTEST_VERSION" in os.environ:
 - Tests failing with database errors
 - Missing template errors during tests
 - Authentication/Authorization issues in test environment
+
+### Using generic messages in a potential Bug flow
+- Avoid using generic flash messages in a location prone to bug
+- Monitor these messages fully. 

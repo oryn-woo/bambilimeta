@@ -1,193 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
-    <meta name="csrf-token" content="{{ csrf_token }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'housing/css/hero.css' %}">
-    <link rel="stylesheet" href="{% static 'housing/css/cards.css' %}">
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}MyHousing Marketplace{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'housing/css/cards.css' %}">
     <link rel="stylesheet" href="{% static 'housing/css/navbar.css' %}">
-    <title>Title</title>
-
-
-
-
+    <link rel="stylesheet" href="{% static 'housing/css/detail.css' %}">
+    <link rel="stylesheet" href="{% static 'housing/css/hero.css' %}">
 </head>
 <body>
-<!--
-- Navbars require a wrapping .navbar with .navbar-expand{-sm|-md|-lg|-xl|-xxl} for responsive collapsing and color scheme classes
-- Navs and their content are fluid by default, meaning
-   the take up full width of their parent container.
-- To limit their horizontal width, we use the container element.
-- These are .container (a fixed width container that adjust width base on screen size 'responsive')
-   an .container-fluid (A full-width container that spans entire width of the parent.)
-- To limit width of navbar we wrap it inside a container which adjust its width based on screen sizes.
-   or use .container-{sm | md | xl}
-NAV-BARS SUPPORT
-- A .navbar-brand for company, product or project name
-- A navbar-nav for full height and lightweight navigation
-- A .navbar-toggler for use with bootstrap collapse plugin
-- A .collapse.navbar-collapse for grouping and hiding navbar contents by a parent breakpoint.
--
--->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">Bambili Rentals</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#"><i class="bi bi-house-heart-fill text-primary me-2 fs-3"></i>Bambili-Housing</a>
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'housing:home' %}"><i class="bi bi-amd me-2 fs-5"></i>Home</a></li>
+
+        
+        
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navDropdown1" role="button" data-bs-toggle="dropdown">
-            Houses
+          <a class="nav-link dropdown-toggle" href="#" id="housesDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+             <i class="bi bi-stack-overflow me-2 fs-4"></i>Houses
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="{% url 'housing:house-list' %}">All Houses</a></li>
-            <li><a class="dropdown-item" href="">Favorites</a></li>
-            <li><a class="dropdown-item" href="#">Add New</a></li>
+          <ul class="dropdown-menu text-start" aria-labelledby="housesDropdown" data-bs-theme='dark'>
+            <li><a class="dropdown-item" href=""><i class="bi bi-tropical-storm me-2 fs-4"></i>Apartments</a></li>
+            <li><a class="dropdown-item" href=""><i class="bi bi-tropical-storm me-2 fs-4"></i>Studios</a></li>
+            <li><a class="dropdown-item" href=""><i class="bi bi-tropical-storm me-2 fs-4"></i>Room-Toilet</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="" ><i class="bi bi-tropical-storm me-2 fs-4"></i>Single-Room</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navDropdown2" role="button" data-bs-toggle="dropdown">
-            Account
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
-          </ul>
-        </li>
+        
+        <li class="nav-item"><a class="nav-link" href="{% url 'market:home' %}"><i class="bi bi-shop-window me-2 fs-4"></i>Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-send-plus-fill me-2 fs-4"></i>About</a></li>
+        {% if not request.user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link btn btn-light text-dark ms-2" href="{% url 'auth:login' %}"><i class="bi bi-person-add me-2 fs-4"></i>Login</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-light text-dark ms-2" href="{% url 'auth:register' %}"><i class="bi bi-person-hearts me-2 fs-4"></i>Register</a></li>
+        {% else %}
+            <li class="nav-item">
+              <a class="nav-link btn btn-light text-dark ms-2" >
+                <form action="{% url 'auth:logout' %}"><i class="bi bi-person-dash me-2 fs-4"></i>Logout</form>
+              </a>
+            </li>
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 
-
-
-
-
-<div class="container-fluid">
-    {% block body %}{% endblock body %}
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNav">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title text-center fw-bold "><i class="bi bi-compass-fill me-2 fs-3"></i>Navigation</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled">
+      <li class="mb-2"><a href="{% url 'housing:favorites' %}" class="nav-link"><i class="bi bi-bag-heart fs-4 me-2"></i>Favorites</a></li>
+      <li class="dropdown mb-2">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-stack-overflow me-2 fs-4"></i>Houses</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-tropical-storm me-2 fs-4"></i>For Sale</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-tropical-storm me-2 fs-4"></i>For Rent</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-tropical-storm me-2 fs-4"></i>Luxury</a></li>
+        </ul>
+      </li>
+      <li class="dropdown mb-2">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-shop-window me-2 fs-4"></i>Shop</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-earbuds me-2 fs-4"></i>Electronics</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock-fill me-2 fs-4"></i>Furniture</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock-fill me-2 fs-4"></i>Appliances</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock-fill me-2 fs-4"></i>Skills</a></li>
+        </ul>
+      </li>
+      <li><a href="#" class="nav-link"><i class="bi bi-person-rolodex me-2 fs-4"></i>Contact</a></li>
+    </ul>
+  </div>
 </div>
 
-
-
-
+<!-- Main Content -->
+<div class="container py-5">
+  {% block body %}
+  <!-- Child templates inject content here -->
+  {% endblock %}
+</div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white mt-5 pt-4 pb-2 container-fluid">
-  <div class="container-fluid">
+<footer>
+  <div class="container">
     <div class="row">
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">Bambili Rentals</h5>
-        <p class="text-muted">Find your next home with ease and confidence.</p>
+      <!-- About -->
+      <div class="col-md-4">
+        <h5>About Us</h5>
+        <p>We connect landlords, buyers, and sellers with premium housing and e-commerce opportunities. Trust, quality, and convenience at your fingertips.</p>
       </div>
-      <div class="col-md-4 mb-3">
-        <h6 class="fw-bold">Quick Links</h6>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
-          <li><a href="#" class="text-white-50 text-decoration-none">List a House</a></li>
-          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+
+      <!-- Quick Links -->
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#"><i class="bi bi-house-door-fill"></i> Houses</a></li>
+          <li><a href="#"><i class="bi bi-cart-fill"></i> Shop</a></li>
+          <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
+          <li><a href="#"><i class="bi bi-info-circle-fill"></i> About</a></li>
         </ul>
       </div>
-      <div class="col-md-4 mb-3">
-        <h6 class="fw-bold">Contact</h6>
-        <p class="text-white-50 mb-1"><i class="bi bi-envelope"></i> info@bambilirentals.com</p>
-        <p class="text-white-50"><i class="bi bi-telephone"></i> +123 456 7890</p>
+
+      <!-- Social -->
+      <div class="col-md-4 text-md-end text-center">
+        <h5>Follow Us</h5>
+        <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="social-btn"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
       </div>
     </div>
-    <div class="text-center text-white-50 mt-3">
-      &copy; {{ year|default:2024 }} Bambili Rentals. All rights reserved.
-    </div>
+
+    <div class="footer-divider"></div>
+    <p class="text-center mb-0">© 2025 MyHousing Marketplace. All rights reserved.</p>
   </div>
 </footer>
 
+<!-- Floating CTA -->
+<a href="{% url 'housing:upload-house'%}" class="floating-cta btn"><i class="bi bi-globe-asia-australia me-2 text-warning"></i> Post a House</a>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
-
-
-
-
-
-
-<!-- OFFCANVAS -->
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRight" data-bs-theme="dark">
-  <div class="offcanvas-header">
-      <div class="container my-3">
-          <form class="d-flex" role="search">
-              <span class="input-group-text">
-                  <span data-bs-placement="right" data-bs-toggle="tooltip" title="Search a home type, e.g single-room, studio or apartment">
-                      <i class="bi bi-question-circle-fill"></i>
-                  </span>
-              </span>
-              <input class="form-control me-2" type="search" placeholder="Find a home" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-      </div>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-  <div class="dropdown custom-dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-      First Option
-    </button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-dark rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-
-    </ul>
-  </div>
-
-  <div class="dropdown custom-dropdown">
-    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
-      Second Option
-    </button>
-    <ul class="dropdown-menu" >
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-secondary rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-
-    </ul>
-  </div>
-
-  <div class="dropdown custom-dropdown">
-    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-      Third Option
-    </button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-secondary rounded-pill p-1"></span>Action</a></li>
-      <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-primary rounded-pill p-1"></span>Action</a></li>
-    </ul>
-  </div>
-
-</div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
-
+<script defer src="{% static 'housing/js/favorite.js' %}"></script>
+<script defer src="{% static 'housing/js/detail.js' %}"></script>
 <script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-</script>
-<script src="{% static 'housing/js/favorite.js' %}">
+  // Activate all Bootstrap tooltips on the page
+document.addEventListener('DOMContentLoaded', function () {
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.forEach(function (el) {
+    new bootstrap.Tooltip(el);
+  });
+
+  // Live preview for each file input in the image formset
+  document.querySelectorAll('.form-control-file').forEach(function (input, idx) {
+    input.addEventListener('change', function (evt) {
+      var file = evt.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview-' + (idx + 1)).src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+});
 
 </script>
+
+
+
+{% block extra_scripts %}
+{% endblock%}
 </body>
 </html>

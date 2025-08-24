@@ -4,19 +4,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, DetailView, View
 from django.urls import reverse_lazy
 from .models import House, HouseImage, HouseReview, Favorite
-from .forms import CreateHouseForm, HouseImageFormSet, HouseReviewForm
+from .forms import HouseForm, HouseImageFormSet, HouseReviewForm
 from django.contrib.auth.decorators import login_required
 # :TODO read
 from django.contrib import messages
 from django.db import transaction
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Exists, OuterRef, Value, BooleanField
+from django.db.models import Exists, OuterRef, Value, BooleanField, Q
 from django.core.cache  import cache
 from django.views.decorators.http import require_POST
-from django.db.models import F
 from .mixins import WelcomeMessageMixins
-from .mixins import RoleAwareMessageMixin
+from django.views.generic import UpdateView
+
 
 
 class LandlordRequiredMixin(UserPassesTestMixin):
@@ -103,7 +103,6 @@ from django.utils.timezone import now
 class ReviewCreateReview(LoginRequiredMixin, CreateView):
     model = HouseReview
     form_class = HouseReviewForm
-    template_name = "housing/review_form.html"
 
     def form_valid(self, form):
         """ Attach a house and author before saving so users dont have to pick at the interface."""
@@ -114,33 +113,64 @@ class ReviewCreateReview(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy("housing:house_detail", kwargs={"pk": self.kwargs["pk"]})
+        return reverse_lazy("housing:house-detail", kwargs={"pk": self.kwargs["pk"]})
 
 
 class HouseListView(WelcomeMessageMixins, ListView):
     model = House
     paginate_by = 6
     template_name = "housing/house_list.html"
-    context_object_name = "houses"  # The variable name used in the template to loop through houses
-    welcome_message = "Welcome to Bambili Rentals"
+    context_object_name = "houses"  # The variable name used in the template to loop through house
+    def price_to_int(self):
+        """
+        A helper function to confirm if a type digit was submited as query parameter
+        Returns the value as in for querying 
+        """
+        price = self.request.GET.get("q")
+        try:
+            return int(price)
+        except Exception as ex:
+            return None
+        
+
     def get_queryset(self):
-        qs = House.objects.all()
-        if self.request.user.is_authenticated:
-            qs = qs.annotate(
-                is_favorited=Exists(
-                    Favorite.objects.filter(
-                        user=self.request.user,
-                        house=OuterRef("pk")
-                    )
-                )
-            )
-        else:
-            qs = qs.annotate(
-                is_favorited=Value(
-                    False, output_field=BooleanField()  # Ensures django does not guess field type
-                )
-            )
-        return qs
+        queryset = super().get_queryset().order_by("created_at")
+        q = self.request.GET.get("q") if  self.request.GET.get("q") else ""
+        price = self.price_to_int()
+        if q:
+            result = queryset.filter(
+                Q(title__icontains=q) |
+                Q(location__icontains=q) |
+                Q(house_desc__icontains=q) 
+            ).order_by("-created_at")
+        
+            if not result.exists():
+                messages.warning(self.request, f"No houses matched '{q}'. showing all houses instead")
+                return queryset  # fallback to default
+
+            return result  # result 
+       
+        return queryset
+
+   
+    # def get_queryset(self):
+    #     qs = House.objects.all()
+    #     if self.request.user.is_authenticated:
+    #         qs = qs.annotate(
+    #             is_favorited=Exists(
+    #                 Favorite.objects.filter(
+    #                     user=self.request.user,
+    #                     house=OuterRef("pk")
+    #                 )
+    #             )
+    #         )
+    #     else:
+    #         qs = qs.annotate(
+    #             is_favorited=Value(
+    #                 False, output_field=BooleanField()  # Ensures django does not guess field type
+    #             )
+    #         )
+    #     return qs
     
     # def get(self, request, *args, **kwargs):
     #     """
@@ -195,7 +225,6 @@ class HouseListView(WelcomeMessageMixins, ListView):
         # If the user has navigated to the house list page from the home page, set
         # a flag in the context so that the template can show the hero section welcoming
         # them to the house list page.
-        context = super().get_context_data(**kwargs) # The origianl data
         context["hero_homes"] = House.objects.all()[:3]  # Additional data
         from_home = self.request.GET.get("focus") == "yes"
         context["focused"] = from_home
@@ -225,7 +254,7 @@ class HouseCreateView(LoginRequiredMixin, View):
         :return: Template and context.
         """
         print("get method triggered")
-        house_form = CreateHouseForm()  # Standard house form
+        house_form = HouseForm()  # Standard house form
         formset = HouseImageFormSet(
             queryset=HouseImage.objects.none()  # Prevent existing image from showing up
         )
@@ -243,7 +272,7 @@ class HouseCreateView(LoginRequiredMixin, View):
         :return: Template and context.
         """
         print("Post method triggered")
-        house_form = CreateHouseForm(request.POST)
+        house_form = HouseForm(request.POST, request.FILES)
         formset = HouseImageFormSet(
             request.POST,
             request.FILES,
@@ -260,16 +289,20 @@ class HouseCreateView(LoginRequiredMixin, View):
                     house.owner = request.user
                     house.save()
                     # save formset images
-                    for img in formset.cleaned_data:
-                        # formset.cleaned data contains dict for each form or and empty dict
-                        if not img:
-                            continue
-                        image = img.get("image")
-                        caption = img.get("caption") or ""
-                        if image:
-                            HouseImage.objects.create(house=house, image=image)
+                    if formset.total_form_count() < 8:
+                        for img in formset.cleaned_data:
+                            # formset.cleaned data contains dict for each form or and empty dict
+                            if not img:
+                                continue
+                            image = img.get("image")
+                            caption = img.get("caption") or ""
+                            if image:
+                                HouseImage.objects.create(house=house, image=image)
+                    else:
+                        messages.error(request, "You can only upload 6 images")
+                        return render(request, "housing/house_form.html", {"formset": formset, "form":house_form})
                 messages.success(request, "House Created successful")
-                return redirect("housing:house_detail")
+                return redirect("housing:house-detail", pk=house.id)
             except Exception as exc:
                 # log exception
                 messages.error(request, f"The was a problem saving house {exc}")
@@ -403,3 +436,88 @@ def toggle_favorite(request):
     if not created:
         favorite.delete()
     return JsonResponse({"is_favorited": created})
+
+
+# def house_edit(request, pk):
+#     house = get_object_or_404(House, pk=pk)
+#     form = CreateHouseForm(request.POST or None, request.FILES or None, instance=house)
+#     formset = HouseImageFormSet(request.POST or None, request.FILES or None, instance=house)
+
+#     if form.is_valid() and formset.is_valid():
+#         try:
+#             with transaction.atomic():
+#                 house = form.save(commit=False)
+#                 house.owner = request.user
+#                 house.save()
+#                 form.save_m2m()
+#                 formset.save()
+#             messages.success(request, "House successfully edited")
+#             return redirect("housing:house-detail", pk=house.id)
+#         except Exception as exc:
+#             messages.error(request, f"An error occurred while editing: {exc}")
+    
+#     return render(request, "housing/house_form.html", {"form": form, "formset": formset})
+
+class ImageInlineEditView(View):
+    model = None
+    form_class = None
+    template_name = None
+    pk_url_kwarg = "pk"
+    success_url = None
+
+    def get_object(self):
+        return get_object_or_404(self.model, pk=self.kwargs.get(self.pk_url_kwarg))
+
+    def get_context_data(self, object, formset):
+
+        return {
+            self.model.__name__.lower(): object,
+            "formset": formset,
+        }
+
+    def get(self, request, *args, **kwargs):
+        object = self.get_object()
+        formset = self.form_class(instance=object)
+        context = self.get_context_data(object, formset)
+        return render(request, self.template_name, context)
+
+    def form_invalid(self, request, object, formset):
+        return render(request, self.template_name, self.get_context_data(object, formset))
+
+    def post(self, request, *args, **kwargs):
+        object = self.get_object()
+        formset = self.form_class(request.POST, request.FILES, instance=object)
+        if formset.is_valid():
+            try:
+                with transaction.atomic():
+                    formset.save()
+                messages.success(request, "House successfully edited")
+                return redirect(object.get_absolute_url() if hasattr(object, "get_absolute_url") else self.success_url)
+            except Exception as exc:
+                messages.error(request, f"An error occurred while editing: {exc}")
+        return self.form_invalid(request, object, formset)
+
+
+class HouseImageEdit(ImageInlineEditView):
+    model = House
+    form_class = HouseImageFormSet
+    template_name = "housing/house_image_edit.html"
+    success_url = reverse_lazy("housing:home")
+    pk_url_kwarg = "pk"
+
+
+class HouseDetailEditView(UpdateView):
+    model = House
+    form_class = HouseForm
+    template_name = "housing/house_detail_edit.html"
+    context_object_name = "house"
+    success_url = reverse_lazy("housing:home")
+    pk_url_kwarg = "pk"
+
+    def form_valid(self, form):
+        messages.success(self.request, "House details updated successfully.")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the errors below.")
+        return super().form_invalid(form)

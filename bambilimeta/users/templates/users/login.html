@@ -262,46 +262,80 @@
           </div>
         </div>
 
-        <!-- Django form -->
-        <form method="post" novalidate>
-          {% csrf_token %}
+          {% load widget_tweaks %}
+<form method="post" novalidate>
+  {% csrf_token %}
 
-          <!-- Example: render fields explicitly for precise styling.
-               Replace the blocks below with {{ form }} if you prefer automatic rendering. -->
-          <div class="mb-3">
-            <label for="id_username" class="form-label">Username or Email</label>
-            <input id="id_username" name="username" class="form-control" type="text" required
-                   placeholder="you@example.com" aria-describedby="usernameHelp">
-          </div>
+  <!-- Non-field errors (e.g. incorrect username/password) -->
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {% for error in form.non_field_errors %}
+        <div>{{ error }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
 
-          <div class="mb-3">
-            <label for="id_password" class="form-label">Password</label>
-            <input id="id_password" name="password" class="form-control" type="password" required
-                   placeholder="Your password ">
-          </div>
+  <!-- Username field -->
+  <div class="mb-3">
+    <label for="{{ form.username.id_for_label }}" class="form-label">
+      {{ form.username.label }}
+    </label>
+    {% if form.username.errors %}
+      {% render_field form.username class="form-control is-invalid" placeholder="you@example.com" aria-describedby="usernameHelp" %}
+      <div class="invalid-feedback">
+        {% for error in form.username.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% else %}
+      {% render_field form.username class="form-control" placeholder="you@example.com" aria-describedby="usernameHelp" %}
+    {% endif %}
+  </div>
 
-          <!-- optional: remember -->
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="remember" id="rememberMe" name="remember">
-            <label class="form-check-label" for="rememberMe" style="color:#cfeff5;">
-              Remember me
-            </label>
-          </div>
+  <!-- Password field -->
+  <div class="mb-3">
+    <label for="{{ form.password.id_for_label }}" class="form-label">
+      {{ form.password.label }}
+    </label>
+    {% if form.password.errors %}
+      {% render_field form.password class="form-control is-invalid" placeholder="Your Password" %}
+      <div class="invalid-feedback">
+        {% for error in form.password.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% else %}
+      {% render_field form.password class="form-control" placeholder="Your Password" %}
+    {% endif %}
+  </div>
 
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-bubble">Sign In</button>
-          </div>
+  <!-- Remember me -->
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" value="remember" id="rememberMe" name="remember">
+    <label class="form-check-label" for="rememberMe">
+      Remember me
+    </label>
+  </div>
 
-          <div class="form-footer mt-3">
-            <small class="muted-link">
-              <a href="{#{% url 'auth:password_reset' %}#}" data-bs-toggle="tooltip" title="Reset your password"  class="btn btn-sm btn-warning">Forgot password?</a>
-            </small>
+  <!-- Submit button -->
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-bubble">Sign In</button>
+  </div>
 
-            <small class="muted-link" aria-hidden="false">
-              Need an account? <a href="{% url 'auth:register' %}" class="btn btn-outline-success btn-sm">Sign up</a>
-            </small>
-          </div>
-        </form>
+  <!-- Footer links -->
+  <div class="form-footer mt-3">
+    <small class="muted-link">
+      <a href="{#{% url 'auth:password_reset' %}#}" data-bs-toggle="tooltip" title="Reset your password" class="btn btn-sm btn-warning">Forgot password?</a>
+    </small>
+
+    <small class="muted-link">
+      Need an account?
+      <a href="{% url 'auth:register' %}" class="btn btn-outline-success btn-sm">Sign up</a>
+    </small>
+  </div>
+</form>
+
+
       </div>
 
       <!-- RIGHT: illustration / helpful panel (hidden or stacked on small screens) -->

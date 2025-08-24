@@ -31,7 +31,7 @@
       <i class="bi bi-stars text-gem ms-1"></i>
     </p>
     <!-- Centered Search Bar -->
-    <form method="get" action="{% url 'housing:house-list' %}" class="d-flex justify-content-center">
+    <form method="get" action="{% url 'housing:home' %}" class="d-flex justify-content-center">
   <div class="input-group input-group-lg hero-search-group shadow-lg flex-column flex-sm-row w-100" style="max-width: 600px;">
     <span class="input-group-text bg-gradient text-gem border-0"><i class="bi bi-search"></i></span>
     <input type="text" name="q" class="form-control border-0" placeholder="Search by location, price, or keyword..." aria-label="Search homes">
@@ -240,7 +240,7 @@
         <ul class="dropdown-menu dropdown-menu-dark">
           <li><a class="dropdown-item" href="#">All Houses</a></li>
           <li>
-            <a href="{% url 'housing:favorite_list' %}" class="favorite-link-btn" aria-label="Go to Favorites"><i class="bi bi-heart-fill"></i>Favorites</a>
+            <a href="{% url 'housing:favorites' %}" class="favorite-link-btn" aria-label="Go to Favorites"><i class="bi bi-heart-fill"></i>Favorites</a>
             </li>
           <li><a class="dropdown-item" href="#">Add New</a></li>
         </ul>
@@ -308,7 +308,7 @@
 
   </div>
   <div style="position: relative;">
-    <h5 class="card-title text-white fw-bold text-truncate"><a href="{% url 'housing:house_detail' house.id %}" class="btn btn-outline-warning text-primary" >{{ house.title|truncatewords:10 | title }}</a></h5>
+    <h5 class="card-title text-white fw-bold text-truncate"><a href="{% url 'housing:house-detail' house.id %}" class="btn btn-outline-warning text-primary" >{{ house.title|truncatewords:10 | title }}</a></h5>
     <p class="card-text text-white-50 mb-1"><i class="bi bi-geo-alt"></i> {{ house.location|truncatewords:5 }}</p>
 
   </div>
@@ -324,7 +324,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white mt-5 pt-4 pb-2">
+{% comment %} <footer class="bg-dark text-white mt-5 pt-4 pb-2">
   <div class="container">
     <div class="row">
       <div class="col-md-4 mb-3">
@@ -349,7 +349,7 @@
       &copy; {{ year|default:2024 }} Bambili Rentals. All rights reserved.
     </div>
   </div>
-</footer>
+</footer> {% endcomment %}
 
 <!-- Custom CSS for animated borders and card effects -->
 <style>

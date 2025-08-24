@@ -1,17 +1,346 @@
-{% extends "marketplace/base.html" %}
+<!--
+File: templates/products/list.html
+Standalone Django template (mobile-first) that renders a responsive grid of product cards.
+Each card contains a Bootstrap carousel of product images, a favorite (heart) toggle, product info,
+price badge, and shiny metallic navbar + footer styles.
 
-{% block title %}Product List{% endblock %}
+Place this file at: templates/products/list.html
+Add the CSS to your static files (see the static/css snippet below) or keep the <style> block for quick testing.
 
-{% block content %}
-{% for product in products %}
-    <div style="padding: 20px; border: 1px solid #ccc; margin-bottom: 20px;">
-        <h2>{{ product.name }}</h2>
-        <p>{{ product.description }}</p>
-        <p>Price: {{ product.price }}</p>
-        <a href="{% url 'market:product_detail' product.id %}">View Details</a>
+Also included below are view / url snippets you can drop into your Django app.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listings — Housing</title>
+
+  <!-- Bootstrap 5 (CDN for quick testing) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Optional: Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent-blue: #0b74ff; /* trust */
+      --accent-yellow: #ffd12a; /* playful */
+      --card-bg: linear-gradient(180deg, rgba(11,116,255,0.06), rgba(255,209,42,0.03));
+      --metallic: linear-gradient(135deg,#e6eef9 0%,#cfe6ff 30%,#d7e3ff 60%,#f7fbff 100%);
+    }
+
+    body{font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: #f7fbff; color:#0f1724}
+
+    /* Navbar shiny metallic buttons */
+    .navbar-metal .nav-link, .navbar-metal .btn{
+      background: var(--metallic);
+      border-radius: 999px;
+      padding: .45rem .8rem;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      box-shadow: 0 2px 8px rgba(14,30,60,0.06);
+      color: #0b2e62 !important;
+      font-weight:600;
+    }
+    .navbar-metal .nav-link:hover, .navbar-metal .btn:hover{
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.05) saturate(1.1);
+      box-shadow: 0 6px 18px rgba(11, 116, 255, .12);
+    }
+
+    /* Main grid */
+    .list-grid{display:block; gap:1.25rem}
+    @media(min-width:576px){ .list-grid{display:grid; grid-template-columns:repeat(2,1fr);} }
+    @media(min-width:992px){ .list-grid{grid-template-columns:repeat(3,1fr);} }
+
+    /* Card */
+    .product-card{
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: .9rem;
+      overflow:visible;
+      position:relative;
+      box-shadow: 0 8px 30px rgba(11,116,255,0.06);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .product-card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(11,116,255,0.12); }
+
+    /* Carousel image sizing and safety */
+    .card-carousel{ border-radius:10px; overflow:hidden; }
+    .card-carousel .carousel-item img{ width:100%; height:220px; object-fit:cover; display:block; }
+    @media(min-width:768px){ .card-carousel .carousel-item img{ height:220px; } }
+    @media(min-width:1200px){ .card-carousel .carousel-item img{ height:240px; } }
+
+    /* Indicator overlay */
+    .carousel-indicators{ bottom:10px; }
+    .carousel-indicators [data-bs-target]{ width:10px; height:10px; border-radius:50%; opacity:.85; }
+
+    /* Meta and badges */
+    .price-badge{
+      background: linear-gradient(90deg, rgba(11,116,255,1), rgba(255,209,42,1));
+      color:#05223a; font-weight:700; padding:.35rem .6rem; border-radius:999px; box-shadow:0 6px 18px rgba(11,116,255,.08);
+    }
+    .seller-name{ font-size:.90rem; color:#07315a; font-weight:600 }
+
+    /* Favorite heart */
+    .fav-btn{
+      position:absolute; right:12px; top:12px; z-index:30; border:none; display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.85); box-shadow:0 6px 18px rgba(11,116,255,0.08); cursor:pointer; transition:transform .12s ease;
+    }
+    .fav-btn:hover{ transform:scale(1.06); }
+    .fav-btn .heart{ width:18px; height:18px; fill:none; stroke:#0b74ff; stroke-width:1.6 }
+    .fav-btn.faved{ background: linear-gradient(90deg,#ffd12a,#ff9a00); }
+    .fav-btn.faved .heart{ fill:#fff; stroke:#fff }
+
+    /* Card content */
+    .card-body-compact{ padding-top:.6rem; }
+    .product-title{ font-weight:700; font-size:1.02rem; color:#05223a }
+    .product-desc{ font-size:.88rem; color:#294558; opacity:.9; margin-top:.35rem }
+
+    /* Footer */
+    .site-footer{ background: linear-gradient(180deg,#f3f9ff,#fff); padding:2rem 0; margin-top:2.2rem; border-top:1px solid rgba(11,116,255,0.04)}
+
+    /* Small decorative pop animation for price */
+    .price-badge:hover{ transform: translateY(-3px) scale(1.03); }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-metal px-3 py-3 mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <!-- small house icon -->
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z" stroke="#0b74ff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="fw-bold" style="color:#0b2e62;">StudentHousing</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item me-2"><a class="nav-link" href="#">Explore</a></li>
+          <li class="nav-item me-2"><a class="nav-link" href="#">Post</a></li>
+          <li class="nav-item me-2"><a class="nav-link" href="#">Help</a></li>
+          <li class="nav-item">
+            <a class="btn" href="#">List your place</a>
+          </li>
+        </ul>
+      </div>
     </div>
-{% empty %}
-    <p>No products available.</p>
-{% endfor %}
+  </nav>
 
-{% endblock %}
+  <!-- MAIN CONTAINER -->
+  <main class="container mb-5">
+    <header class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h1 class="h3 mb-0">Latest Listings</h1>
+        <p class="text-muted small mb-0">Bright, student-friendly places — quick to book.</p>
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <span class="price-badge">Filters</span>
+      </div>
+    </header>
+
+    <!-- PRODUCTS GRID -->
+    <section class="list-grid">
+
+      {# Loop through products provided by the view #}
+      {% for product in products %}
+      <article class="product-card">
+
+        <!-- Favorite button -->
+        <button class="fav-btn" aria-pressed="false" data-product-id="{{ product.id }}" data-url='{% url "market:toggle_favorite"  product.id %}'>
+          <svg class="heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="favorite">
+            <path d="M12 21s-7.5-4.6-10-7.2C-1 9.6 2.6 4 7.3 5.2 9.4 5.8 11 7.4 12 9c1-1.6 2.6-3.2 4.7-3.8C21.4 4 25 9.6 22 13.8 19.5 16.4 12 21 12 21z"/>
+          </svg>
+        </button>
+
+        <!-- Carousel -->
+        <div id="carousel-{{ product.id }}" class="carousel slide card-carousel" data-bs-ride="carousel">
+
+          <!-- Indicators -->
+          <div class="carousel-indicators">
+            {% for img in product.images.all %}
+              <button type="button" data-bs-target="#carousel-{{ product.id }}" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+            {% empty %}
+              <button type="button" data-bs-target="#carousel-{{ product.id }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="No image"></button>
+            {% endfor %}
+          </div>
+
+          <div class="carousel-inner">
+            {% if product.images.exists %}
+              {% for img in product.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <img src="{{ img.image.url }}" alt="{{ product.name }} image {{ forloop.counter }}">
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="carousel-item active">
+                <!-- Placeholder if no image -->
+                <div style="height:220px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eaf4ff,#fff9e6);border-radius:8px;">
+                  <div class="text-center">
+                    <svg width="54" height="54" viewBox="0 0 24 24" fill="none"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z" stroke="#0b74ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <p class="small mt-2" style="color:#0b3b66;">No photos yet</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Controls -->
+          {% if product.images.count > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ product.id }}" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ product.id }}" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          {% endif %}
+
+        </div>
+
+        <!-- Content -->
+        <div class="card-body-compact mt-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="product-title">{{ product.name }}</div>
+              <div class="product-desc">{{ product.description|truncatechars:80 }}</div>
+              <div class="mt-2 seller-name">by {{ product.seller.get_full_name|default:product.seller.username }}</div>
+            </div>
+            <div class="text-end ms-3">
+              <div class="price-badge">${{ product.price }}</div>
+              <div class="small text-muted mt-1">{{ product.stock }} available</div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-3">
+            <a href="{% url 'market:product-detail' product.id %}" class="btn btn-sm">View</a>
+            <a href="#" class="btn btn-sm">Book</a>
+          </div>
+        </div>
+
+      </article>
+      {% endfor %}
+
+    </section>
+
+    <!-- Pagination (if provided by view) -->
+    <div class="mt-4 d-flex justify-content-center">
+      {% if is_paginated %}
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for p in paginator.page_range %}
+              <li class="page-item {% if page_obj.number == p %}active{% endif %}"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <strong>StudentHousing</strong>
+        <div class="small text-muted">Helping students find colorful, comfy rooms since forever 🏡</div>
+      </div>
+      <div class="text-end small text-muted">Made with ❤️ • <a href="#">Privacy</a> • <a href="#">Terms</a></div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const url = e.currentTarget.dataset.url;
+        const csrftoken = getCookie('csrftoken');
+    
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrftoken, 'Accept': 'application/json' },
+        });
+    
+        const data = await res.json();
+        if (data.favorited) {
+          e.currentTarget.classList.add('faved');
+          e.currentTarget.setAttribute('aria-pressed', 'true');
+        } else {
+          e.currentTarget.classList.remove('faved');
+          e.currentTarget.setAttribute('aria-pressed', 'false');
+        }
+      });
+    });
+    
+  </script>
+
+
+  <script>
+    document.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const productId = e.currentTarget.dataset.productId;
+        // optimistic UI
+        e.currentTarget.classList.toggle('faved');
+        const csrftoken = getCookie('csrftoken');
+    
+        try {
+          const res = await fetch(`/favorites/toggle/${productId}/`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'X-CSRFToken': csrftoken,
+              'Accept': 'application/json',
+            },
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Unknown error');
+    
+          if (data.favorited) {
+            e.currentTarget.classList.add('faved');
+            e.currentTarget.setAttribute('aria-pressed', 'true');
+          } else {
+            e.currentTarget.classList.remove('faved');
+            e.currentTarget.setAttribute('aria-pressed', 'false');
+          }
+        } catch (err) {
+          // revert optimistic UI on error
+          e.currentTarget.classList.toggle('faved');
+          console.error('Favorite toggle failed', err);
+          alert('Could not save favorite. Try again.');
+        }
+      });
+    });
+    
+    // helper cookie reader (same as in template)
+    function getCookie(name) {
+      let v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      return v ? v[2] : null;
+    }
+    </script>
+    
+</body>
+</html>
+
+

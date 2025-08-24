@@ -222,3 +222,146 @@ def dispatch(self, request, *args, **kwargs):
 * example ```auth/login/?next=/house/create/```
 * This ensures smooth user experience, users are sent back where the intended to go
 * 
+
+#### BUG
+
+
+
+---
+
+## 🐛 Django Form Prefill Bug — Bound Form on GET Request
+
+### **Bug Summary**
+When initializing a Django `ModelForm` with `request.FILES` (without checking if it's `None`), the form becomes **bound** even on a GET request. This causes Django to ignore the `instance` and skip pre-filling fields with model data.
+
+### **Symptoms**
+- Form fields appear blank on the edit page.
+- Model instance has valid data (confirmed via `print()`).
+- Some fields (like `video`) may still appear filled if they’re handled differently or cached.
+- No form errors are shown—just mysteriously empty fields.
+
+### **Root Cause**
+```python
+form = CreateHouseForm(request.POST or None, request.FILES, instance=house)
+```
+
+Even if `request.POST` is `None`, passing `request.FILES` unconditionally makes the form bound. Django then prioritizes empty POST data over the `instance`.
+
+### ✅ Correct Fix
+```python
+form = CreateHouseForm(request.POST or None, request.FILES or None, instance=house)
+```
+
+This ensures:
+- On GET: form is unbound → Django uses `instance` to prefill fields.
+- On POST: form is bound → Django uses submitted data.
+
+### 🔍 Debug Tip
+Use `form.initial` and `form.data` to inspect what Django is actually loading:
+```python
+print("Initial:", form.initial)
+print("Bound:", form.is_bound)
+```
+
+### 💡 Lesson
+Always guard `request.FILES` with `or None` when initializing forms—especially in views that handle both GET and POST.
+
+---
+
+### ListView 
+* ListView ignores POSt for fetching data
+* By default ListView always call get_queryset() on GET requests, and not POST
+# Django ListView Search Notes
+
+## Problem
+I wanted to implement a small search bar on my **HouseListView** so that only search results are displayed when users submit a query.  
+Initially, I tried handling search inside `get_context_data()` using `POST`, but it caused issues:
+- `ListView` ignores `POST` for fetching objects (it always calls `get_queryset()` on GET).
+- Filtering inside `get_context_data()` did not affect the main `object_list` (so pagination and loops would not work as expected).
+- Using `POST` meant the search could not be bookmarked or paginated.
+
+---
+
+## Correct Solution
+
+### 1. Override `get_queryset()`
+Instead of `POST`, use `GET` parameters for searching:
+
+```python
+from django.db.models import Q
+from django.core.cache import cache
+from django.views.generic import ListView
+from .models import House
+
+class HouseListView(WelcomeMessageMixins, ListView):
+    model = House
+    paginate_by = 6
+    template_name = "housing/house_list.html"
+    context_object_name = "houses"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get("q")
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(location__icontains=q) |
+                Q(house_desc__icontains=q)
+            )
+        else:
+            queryset = queryset.none()  # ✅ show nothing if no search query
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Cache popular houses
+        popular_houses = cache.get("popular_houses")
+        if not popular_houses:
+            popular_houses = list(House.objects.order_by("-view_count")[:2])
+            cache.set("popular_houses", popular_houses, 900)
+        context["popular_houses"] = popular_houses
+
+        # Cache hero homes
+        hero_homes = cache.get("hero_home_list")
+        if not hero_homes:
+            hero_homes = list(House.objects.all()[:3])
+            cache.set("hero_home_list", hero_homes, 900)
+        context["hero_homes"] = hero_homes
+
+        # From home focus flag
+        from_home = self.request.GET.get("focus") == "yes"
+        context["focused"] = from_home
+
+        return context
+
+
+# Understanding `get_queryset()` in Django ListView
+
+## What is `get_queryset()`?
+- In a `ListView`, Django uses the method `get_queryset()` to determine which objects to display.  
+- By default, if you don’t override it, Django runs:
+  ```python return self.model.objects.all()```
+
+
+Every ListView needs a queryset — the set of objects it will display in the template.
+
+By default, if you don’t override it, Django uses:
+
+queryset = self.model.objects.all()
+
+
+Overriding get_queryset() lets you filter, sort, or otherwise change what the view shows.
+
+Why we use queryset as a variable
+
+Inside get_queryset(), we usually start with the base queryset from the parent:
+
+queryset = super().get_queryset()
+
+
+At this point, queryset is just a variable holding House.objects.all() (since our model = House).
+
+We keep using the variable queryset to chain filters or conditions, and finally return it.
+
+You could technically write directly return House.objects.filter(...), but using queryset makes the code easier to extend and read.

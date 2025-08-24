@@ -1,60 +1,128 @@
 {% extends "housing/base.html" %}
 {% load static %}
 {% block body %}
-<div class="rol-col-12 rol-col-md-6 text-center mt-4">
-    <h1 class="bungee-regular text-dark ">Welcome To Bambili Rentals</h1>
-</div>
-<div class="container py-4">
-    <div class="row">
-         {% for house in house_list %}
-        <div class="col-12 col-sm-6 col-md-4 mb-3"> <!-- Full width on extra-small screens, half on small and 1/3 on medium size.-->
-            <div class="card text-white overflow-hidden">
-                {% if house.images.exists %}
-                    <img src=" {{ house.images.first.image.url }}" class="card-img" alt="A beautiful modern house">
-                {% else %}
-                    <p>No image</p>
-                {% endif %}
 
-                <div class="card-img-overlay d-flex flex-column bg-dark bg-opacity-25 p-3">
-                  <!-- The flex-column has made card a parent with a vertical flexbox layout for its children.
-                  The flex-colum stacks children on the overlay vertically, compared to horizontally for flex-row.
-                  Now the flex-column only affects children (The three divs for title, location and badges, and stacks them vertically.)
-                  This divs are just block elements which can enforce their own styling to their children with freewill.-->
+<!-- Hero Section -->
 
-                    <div class="d-flex justify-content-between align-items-start">
-                        <h5 class="card-title text-truncate me-3">
-                            <i class="bi bi-house-check-fill me-2" aria-hidden="true"></i>{{ house.title }}
-                        </h5>
-                        <span class="badge bg-primary rounded-pill">9</span>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center"> <!-- This line says arrange content horizontally(d-flex) then pussh them to the edges(justify content between)-->
-                        <h6 class="text-truncate me-3">
-                            <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>{{ house.location }}
-                        </h6>
-                        <span role="button" aria-label="Favorite this house" class="fs-4">
-                            <i class="bi bi-balloon-heart"></i>
-                        </span>
-                    </div>
-
-                    <div class="mt-auto d-flex flex-nowrap overflow-auto pb-2"> <!-- The mt-auto a margin utility pushes it to the bottom of the container
-                     This div is a block element stacked automatically by the flex-column, hence its children, badges will
-                     Flow horizontally untill the run of spacce and wrap to the next line, since span is and inline element.
-                     The mt-auto tells it to take the entire available upper space for itself, hence it geos to the bottom.-->
-                        <span class="badge bg-light text-dark rounded-pill">3 Bedrooms</span>
-                        <span class="badge bg-light text-dark rounded-pill">2 Bathrooms</span>
-                        <span class="badge bg-light text-dark rounded-pill">Pool</span>
-                    </div>
-
-                </div>
-                <a href="{% url 'housing:house_detail' house.id %}" class="stretched-link" aria-label="View details for Modern Villa"></a>
-            </div>
-
-        </div>
-        {% empty %}
-            <h4 class="display-4">No homes Listed</h4>
-        {% endfor %}
+<div class="hero-section d-flex align-items-center justify-content-center text-center py-5 my-2 container-fluid" style="background: linear-gradient(135deg, #232526 0%, #414345 100%); min-height: 60vh; position: relative;">
+  <div class="container position-relative z-2">
+    <!-- Animated Heading -->
+    <h1 class="display-3 fw-bold mb-3 animated-gradient-text">
+      <i class="bi bi-gem me-2 text-gem"></i>
+      Find Your <span class="text-metal">Dream Home</span>
+      <i class="bi bi-house-door-fill ms-2 text-metal"></i>
+    </h1>
+    <!-- Subheading with icons -->
+    <p class="lead mb-4 text-light">
+      <i class="bi bi-geo-alt-fill text-gem me-1"></i>
+      Bambili’s best rentals, curated for you
+      <i class="bi bi-stars text-gem ms-1"></i>
+    </p>
+    <div class="container my-2">
+      <a href="{% url 'housing:favorites' %}" class="favorite-link-btn" aria-label="Go to Favorites">
+        <i class="bi bi-heart-fill"></i>
+      </a>
     </div>
+    <!-- Centered tool tip Search Bar -->
+    <form method="get" action="{% url 'housing:home' %}" class="d-flex justify-content-center">
+      <div class="input-group input-group-lg hero-search-group shadow-lg flex-column flex-sm-row w-100" style="max-width: 600px;">
+        <span class="input-group-text bg-gradient text-gem border-0"><i class="bi bi-search"></i></span>
+        <input type="text" name="q" class="form-control border-0" placeholder="Search by location, price, or keyword..." aria-label="Search homes">
+        <button class="btn btn-metal fw-bold px-4" type="submit">Search</button>
+      </div>
+</form>
+    <!-- Decorative icons row -->
+  <div class="mt-4 d-flex justify-content-center gap-4 flex-wrap decorative-icons">
+    <i class="bi bi-hypnotize fs-2 text-gem"></i>
+    <i class="bi bi-intersect fs-2 text-metal"></i>
+    <i class="bi bi-meta fs-2 text-metal"></i>
+    <i class="bi bi-meta fs-2 text-gem"></i>
+    <i class="bi bi-microsoft-teams fs-2 text-metal"></i>
+    <i class="bi bi-moon-stars fs-2 text-gem"></i>
+    <i class="bi bi-person-hearts fs-2 text-metal"></i>
 </div>
-{% endblock body %}
+  </div>
+</div>
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
+{% if messages %}
+  <div class="container-fluid mt-3 my-2 mb-2">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Hero Section Custom CSS -->
+
+
+<!-- Houses Grid -->
+<div class="container py-5">
+  <div class="row g-4">
+    {% for house in houses %}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card house-card border-0 shadow-lg position-relative overflow-hidden animate-border">
+        <!-- Carousel -->
+        {% if house.images.exists %}
+        <div id="carousel-{{ house.id }}" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for img in house.images.all %}
+            <button type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></button>
+            {% endfor %}
+          </div>
+          <div class="carousel-inner rounded-4">
+            {% for img in house.images.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ img.image.url }}" class="d-block w-100 object-fit-cover" style="height: 300px;" alt="House image">
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ house.id }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+        {% else %}
+        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
+          <span class="text-white-50">No image</span>
+        </div>
+        {% endif %}
+        <!-- Overlay -->
+        <div class="card-img-overlay d-flex flex-column justify-content-between p-3 bg-gradient bg-opacity-50" style="background: rgba(0,0,0,0.4);">
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-warning text-primary fs-6 shadow">${{ house.price|default:"N/A" }}</span>
+    <button
+        class="btn btn-outline-light btn-sm rounded-circle shadow favorite-btn"
+        data-house-id="{{ house.id }}"
+        data-favorited="{{ house.is_favorited|yesno:'true,false' }}"
+        aria-label="Favorite"
+      style="position: relative; z-index: 2;">
+        <i class="bi {{ house.is_favorited|yesno:'bi-heart-fill,bi-heart' }}"></i>
+    </button>
+
+
+  </div>
+  <div style="position: relative;">
+    <h5 class="card-title text-white fw-bold text-truncate"><a href="{% url 'housing:house-detail' house.id %}" class="btn btn-outline-warning text-primary" >{{ house.title|truncatewords:10 | title }}</a></h5>
+    <p class="card-text text-white-50 mb-1"><i class="bi bi-geo-alt"></i> {{ house.location|truncatewords:5 }}</p>
+
+  </div>
+</div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <h4 class="display-6 text-muted">No homes listed</h4>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock body %}

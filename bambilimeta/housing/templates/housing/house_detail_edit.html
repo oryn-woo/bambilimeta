@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit product</title>
+</head>
+<body>
+<div>
+    <form action="{% url 'housing:edit-house-details' object.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">update</button>
+    </form>
+
+</div>
+</body>
+</html>

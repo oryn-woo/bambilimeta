@@ -25,6 +25,7 @@ urlpatterns = [
     path("housing/", include("housing.urls")),
     path("market/", include("marketplace.urls")),
     path("auth/", include("users.urls")),
+    path("", include("heroapp.urls")),
 ]
 
 

@@ -8,7 +8,7 @@ class WelcomeMessageMixins:
     """
     welcome_message = None
     def get_welcome_message(self):
-        return self.welcome_message or "Welcome to Bambili Rentals"
+        return self.welcome_message 
 
     def dispatch(self, request, *args, **kwargs):
         message = self.get_welcome_message()

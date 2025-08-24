@@ -7,24 +7,18 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ["name", "price", "stock", "description", "stock"]
 
 
-# product_image_formset = modelformset_factory(
-#     model=ProductImage,
-#     fields=("image",),
-#     extra=4,
-#     widgets={
-#         "image": FileInput(),
-#     }
-# )
 
 # This method ties images directly to parent product
-
 ImageInlineFormset = inlineformset_factory(
     Product,
     ProductImage,
     fields=("image",),
-    extra=4,
-    widgets={"image": FileInput(),}
+    can_delete=True,
+    extra=2,
+    widgets={
+      "image": FileInput(attrs={"class": "form-control"})
+    },
 )

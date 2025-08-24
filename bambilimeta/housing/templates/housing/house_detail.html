@@ -57,12 +57,22 @@
         <!-- House Details Section -->
         <div class="row mt-5">
             <div class="col-12">
-                <h2 class="mb-4">{{ house_detail.title }}</h2>
-                <div class="d-flex flex-wrap gap-3 mb-4">
-                    <span class="badge bg-primary p-2 fs-1"><i class="bi bi-geo-alt-fill me-1 fs-3"></i> {{ house_detail.location }}</span>
-                    <span class="badge bg-success p-2 fs-1"><i class="bi bi-currency-dollar me-1 fs-3"></i> {{ house_detail.price|intcomma }}/month</span>
-                    <span class="badge bg-info p-2 fs-1"><i class="bi bi-house-door-fill me-1 fs-3"></i> {{ house_detail.bedrooms }} Bedrooms</span>
-                </div>
+                <h2 class="mb-3">{{ house_detail.name }}</h2>
+<div class="d-flex flex-wrap gap-3 mb-4">
+    <span class="badge bg-primary p-2 fs-5"><i class="bi bi-tag-fill me-1"></i> SKU: {{ house_detail.proximity_to_campus }}</span>
+    <span class="badge bg-success p-2 fs-5"><i class="bi bi-currency-dollar me-1"></i> {{ house_detail.price|intcomma }}</span>
+    <span class="badge bg-info p-2 fs-5"><i class="bi bi-box-seam me-1"></i> In Stock</span>
+
+    <a class="btn btn-outline-info badges p-2 fs-5" href="{% url 'housing:edit-house-images' house_detail.pk %}">
+        <i class="bi bi-pencil-square me-1"></i>Edit
+    </a>
+    <a class="btn btn-outline-info badges p-2 fs-5" href="{% url 'housing:edit-house-details' house_detail.pk %}">
+        <i class="bi bi-pencil-square me-1"></i>Edit details
+    </a>
+
+    
+</div>
+
 
                 <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs mb-4" id="houseTabs" role="tablist">
@@ -75,6 +85,9 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active fw-bold fs-1" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab">Location</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link  fw-bold fs-1" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab">Payment</button>
+                    </li>
                 </ul>
 
                 <!-- Tabs Content -->
@@ -86,19 +99,24 @@
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
                                     <li class="mb-2"><i class="bi bi-rulers me-2"></i> <strong>Area:</strong> {{ house_detail.area|default:"N/A" }} sq ft</li>
-                                    <li class="mb-2"><i class="bi bi-door-closed me-2"></i> <strong>Bedrooms:</strong> {{ house_detail.bedrooms|default:"N/A" }}</li>
-                                    <li class="mb-2"><i class="bi bi-bath me-2"></i> <strong>Bathrooms:</strong> {{ house_detail.bathrooms|default:"N/A" }}</li>
+                                    <li class="mb-2"><i class="bi bi-door-closed me-2"></i> <strong>Bedrooms:</strong> {{ house_detail.num_bedrooms|default:"N/A" }}</li>
+                                    <li class="mb-2"><i class="bi bi-bath me-2"></i> <strong>Bathrooms:</strong> {{ house_detail.num_bathrooms|default:"N/A" }}</li>
                                 </ul>
+                                <button class="btn btn-lg w-100" style="background-color:#0d47a1; color:white;">
+    <i class="bi bi-cart-plus me-2"></i> Add to Cart
+</button>
+
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-calendar-event me-2"></i> <strong>Available from:</strong> {{ house_detail.available_from|date:"F j, Y"|default:"Immediately" }}</li>
-                                    <li class="mb-2"><i class="bi bi-building me-2"></i> <strong>Property Type:</strong> {{ house_detail.property_type|default:"N/A" }}</li>
-                                    <li class="mb-2"><i class="bi bi-car-front-fill me-2"></i> <strong>Parking:</strong> {{ house_detail.parking_spots|default:"0" }} spots</li>
+                                    <li class="mb-2"><i class="bi bi-calendar-event me-2"></i> <strong>Available from:</strong> {{ house_detail.has_wifi|date:"F j, Y"|default:"Immediately" }}</li>
+                                    <li class="mb-2"><i class="bi bi-building me-2"></i> <strong>Property Type:</strong> {{ house_detail.lease_duration_months|default:"N/A" }}</li>
+                                    <li class="mb-2"><i class="bi bi-car-front-fill me-2"></i> <strong>Parking:</strong> {{ house_detail.max_occupants|default:"0" }} spots</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+
                     <div class="tab-pane fade" id="amenities" role="tabpanel">
                         <h4 class="mb-3">Amenities</h4>
                         <div class="row">
@@ -116,13 +134,24 @@
                             {% endfor %}
                         </div>
                     </div>
+
                     <div class="tab-pane fade show active" id="location" role="tabpanel">
                         <h4 class="mb-3">Location</h4>
                         <!--<div id="map" style="height: 300px; width: 100%;" class="rounded-3 mb-3"></div>-->
                         <p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> {{ house_detail.location|default:"Address not provided" }}</p>
                         <p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> {{ house_detail.owner.phone_number|default:"Address not provided" }}</p>
                         <p><i class="bi bi-info-circle-fill me-2"></i> {{ house_detail.house_desc|default:"No additional location information available." }}</p>
+                    
+                        <div class="alert alert-secondary d-flex align-items-center mt-4">
+
+                        <i class="bi bi-shield-check text-success fs-4 me-2"></i>
+                        <span>Secure transaction. 30-day money-back guarantee.</span>
                     </div>
+
+
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -130,7 +159,7 @@
         <!-- Reviews Section -->
         <div class="row mt-5">
             <div class="col-12">
-                <h3 class="mb-4 text-center display-4 fw-bold ">Reviews</h3>
+                <h4 class="mb-4 text-center display-4 fw-bold "><i class="bi bi-envelope-check-fill h-100 me-2"></i>Reviews<i class="bi bi-envelope-paper-heart ms-2 h-100"></i></h4>
                 {% if reviews %}
                 <div class="list-group">
                     <div class="row ">
@@ -165,7 +194,7 @@
                 <div class="card bg-dark bg-opacity-25 border-light mt-4">
                     <div class="card-body">
                         <h5 class="card-title">Write a Review</h5>
-                        <form method="post" action="{% url 'housing:house_review' house_detail.id %}">
+                        <form method="post" action="{% url 'housing:house-review' house_detail.id %}">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="{{ review_form.rating.id_for_label }}" class="form-label">Rating</label>
@@ -184,13 +213,13 @@
                                 <label for="{{ review_form.comment.id_for_label }}" class="form-label">Your Review</label>
                                 {{ review_form.comment }}
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-envelope-paper-heart-fill fs-4 me-2"></i>Submit Review</button>
                         </form>
                     </div>
                 </div>
                 {% else %}
                 <div class="alert alert-warning mt-4">
-                    <a href="{% url 'auth:login' %}?next={{ request.path }}" class="alert-link">Sign in</a> to leave a review.
+                    <a href="{% url 'auth:login' %}?next={{ request.path }}" class="alert-link"><i class="bi bi-person-hearts me-2 fs-4"></i>Sign in</a> to leave a review.
                 </div>
                 {% endif %}
             </div>
@@ -199,85 +228,6 @@
 </div>
 
 <!-- Custom CSS -->
-<style>
-    /* Base dark theme */
-    body {
-        background-color: #121212;
-        color: #e0e0e0;
-    }
-
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #2d2d2d;
-        border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #555;
-        border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #777;
-    }
-
-    /* Tab styling */
-    .nav-tabs .nav-link {
-        color: #adb5bd;
-        border: 1px solid transparent;
-        border-bottom: none;
-        margin-right: 5px;
-    }
-
-    .nav-tabs .nav-link.active {
-        color: #0d6efd;
-        background-color: rgba(13, 110, 253, 0.1);
-        border-color: #495057 #495057 #0d6efd;
-    }
-
-    .nav-tabs .nav-link:hover:not(.active) {
-        border-color: transparent;
-        color: #fff;
-    }
-
-    /* Thumbnail hover effect */
-    .thumbnail-container img {
-        transition: all 0.3s ease;
-        opacity: 0.7;
-    }
-
-    .thumbnail-container:hover img,
-    .thumbnail-container.active img {
-        opacity: 1;
-        border-color: #0d6efd !important;
-        transform: scale(1.02);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 991.98px) {
-        .carousel-item img {
-            height: 400px !important;
-        }
-
-        .thumbnail-container {
-            flex: 0 0 80px !important;
-        }
-
-        .thumbnail-container img {
-            height: 60px !important;
-        }
-    }
-
-    @media (max-width: 767.98px) {
-        .carousel-item img {
-            height: 300px !important;
-        }
-    }
-</style>
 
 <!-- JavaScript for carousel and thumbnails interaction -->
 {% block script %}
